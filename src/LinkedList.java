@@ -89,7 +89,7 @@ public class LinkedList {
             }
             if (node.equals(tail)) {
                 prev.next = null;
-                this.tail = null;
+                this.tail = prev;
             }
         }
     }
