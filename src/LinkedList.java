@@ -67,31 +67,36 @@ public class LinkedList {
 
     public void removeAll(int _value) {
         Node node = this.head;
-        if (node != null) {
-            if (node.value == _value) {
-                if (node.next != null)
-                    this.head = node.next;
-                else
-                    this.head = null;
-            }
-        }
+        Node prev = this.head;
         while (node.next != null) {
-            if (node.next.value == _value) {
-                if (node.next.next != null)
-                    node.next = node.next.next;
-                else
-                    node.next = null;
+            if (node.value == _value) {
+                if (node.equals(this.head)) {
+                    node = node.next;
+                    this.head = node;
+                    continue;
+                }
+                prev.next = node.next;
+                node = node.next;
+                continue;
             }
+            prev = node;
             node = node.next;
         }
-        if (node.value == _value)
-            this.tail = null;
+        if (node.value == _value) {
+            if (node.equals(this.head)) {
+                this.head = null;
+                this.tail = null;
+            }
+            if (node.equals(tail)) {
+                prev.next = null;
+                this.tail = null;
+            }
+        }
     }
 
     public void clear() {
         this.head = null;
         this.tail = null;
-        // здесь будет ваш код очистки всего списка
     }
 
     public int count() {
@@ -103,7 +108,7 @@ public class LinkedList {
             count++;
             node = node.next;
         }
-        return count; // здесь будет ваш код подсчёта количества элементов в списке
+        return count;
     }
 
     public void insertAfter(Node _nodeAfter, Node _nodeToInsert) {
@@ -124,11 +129,6 @@ public class LinkedList {
             _nodeToInsert.next = null;
         }
     }
-    // здесь будет ваш код вставки узла после заданного
-
-    // если _nodeAfter = null ,
-    // добавьте новый элемент первым в списке
-
 }
 
 class Node {
