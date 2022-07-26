@@ -41,6 +41,7 @@ public class LinkedList {
 
     public boolean remove(int _value) {
         Node node = this.head;
+        Node prev = this.head;
         if (node.value == _value) {
             if (node.next != null)
                 this.head = node.next;
@@ -52,15 +53,13 @@ public class LinkedList {
             if (node.next.value == _value) {
                 if (node.next.next != null)
                     node.next = node.next.next;
-                else
+                else {
+                    this.tail = node;
                     node.next = null;
+                }
                 return true;
             }
             node = node.next;
-        }
-        if (node.value == _value) {
-            this.tail = null;
-            return true;
         }
         return false;
     }
