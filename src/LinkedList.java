@@ -116,8 +116,15 @@ public class LinkedList {
     }
 
     public void insertAfter(Node _nodeAfter, Node _nodeToInsert) {
-        if (_nodeAfter == null)
-            this.head = _nodeToInsert;
+        if(_nodeAfter == null){
+            if(this.head!=null){
+                _nodeToInsert.next = this.head;
+                this.head = _nodeToInsert;
+            } else {
+                this.head = _nodeToInsert;
+                this.tail = _nodeToInsert;
+            }
+        }
         Node node = this.head;
         while (node.next != null) {
             if (node.equals(_nodeAfter)) {
