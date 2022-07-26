@@ -126,18 +126,21 @@ public class LinkedList {
             }
         }
         Node node = this.head;
-        while (node.next != null) {
-            if (node.equals(_nodeAfter)) {
-                _nodeToInsert.next = node.next;
-                node.next = _nodeToInsert;
+        if(node != null) {
+            while (node.next != null) {
+                if (node.equals(_nodeAfter)) {
+                    _nodeToInsert.next = node.next;
+                    node.next = _nodeToInsert;
+                    node = node.next;
+                    break;
+                }
                 node = node.next;
-                break;
             }
-            node = node.next;
-        }
-        if (node.equals(_nodeAfter)) {
-            node.next = _nodeToInsert;
-            _nodeToInsert.next = null;
+            if (node.equals(_nodeAfter)) {
+                node.next = _nodeToInsert;
+                _nodeToInsert.next = null;
+                this.tail = _nodeToInsert;
+            }
         }
     }
 }
