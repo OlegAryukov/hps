@@ -41,13 +41,13 @@ public class LinkedList {
 
     public boolean remove(int _value) {
         Node node = this.head;
-        if(node == null){
+        if (node == null) {
             return false;
         }
         if (node.value == _value) {
             if (node.next != null)
                 this.head = node.next;
-            else{
+            else {
                 clear();
             }
             return true;
@@ -70,28 +70,30 @@ public class LinkedList {
     public void removeAll(int _value) {
         Node node = this.head;
         Node prev = this.head;
-        while (node.next != null) {
-            if (node.value == _value) {
-                if (node.equals(this.head)) {
+        if (node != null) {
+            while (node.next != null) {
+                if (node.value == _value) {
+                    if (node.equals(this.head)) {
+                        node = node.next;
+                        this.head = node;
+                        continue;
+                    }
+                    prev.next = node.next;
                     node = node.next;
-                    this.head = node;
                     continue;
                 }
-                prev.next = node.next;
+                prev = node;
                 node = node.next;
-                continue;
             }
-            prev = node;
-            node = node.next;
-        }
-        if (node.value == _value) {
-            if (node.equals(this.head)) {
-                this.head = null;
-                this.tail = null;
-            }
-            if (node.equals(tail)) {
-                prev.next = null;
-                this.tail = prev;
+            if (node.value == _value) {
+                if (node.equals(this.head)) {
+                    this.head = null;
+                    this.tail = null;
+                }
+                if (node.equals(tail)) {
+                    prev.next = null;
+                    this.tail = prev;
+                }
             }
         }
     }
