@@ -60,7 +60,7 @@ public class DynArray<T> {
             this.capacity = newCapacity;
             this.array = newArray;
         } else if (count == index) {
-            append(itm);
+            array[count] = itm;
         } else if (index < count){
             T tmp = array[index];
             array[index] = itm;
