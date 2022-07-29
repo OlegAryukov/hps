@@ -64,7 +64,7 @@ public class DynArray<T> {
         } else if (index < count){
             T tmp = array[index];
             array[index] = itm;
-            for (int i = index+1; i < count; i++) {
+            for (int i = index+1; i < capacity; i++) {
                 T innerTmp = array[i];
                 array[i] = tmp;
                 tmp = innerTmp;
@@ -80,7 +80,7 @@ public class DynArray<T> {
             throw new IndexOutOfBoundsException();
         }
         if (count != 0) {
-            if ((count - 1) <= (capacity / 1.5)) {
+            if ((count - 1) <= (int)(capacity / 1.5)) {
                 int newCapacity = Math.max((int) (this.capacity / 1.5), 16);
                 T[] newArray = (T[]) Array.newInstance(this.clazz, newCapacity);
                 int j = 0;
