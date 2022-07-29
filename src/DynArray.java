@@ -43,7 +43,7 @@ public class DynArray<T> {
     }
 
     public void insert(T itm, int index) {
-        if (index > capacity - 1)
+        if (index > capacity - 1 || index < 0)
             throw new IndexOutOfBoundsException();
         if (count + 1 >= capacity) {
             int newCapacity = this.capacity * 2;
@@ -59,13 +59,12 @@ public class DynArray<T> {
             }
             this.capacity = newCapacity;
             this.array = newArray;
-        } else if(count!=index) {
-            T tmp = array[index-1];
-            for (int i = index-1; i < count; i++) {
-                if (i == index-1) {
-                    array[i] = itm;
-                    continue;
-                }
+        } else if (count == index) {
+            append(itm);
+        } else if (index < count){
+            T tmp = array[index];
+            array[index] = itm;
+            for (int i = index+1; i < count; i++) {
                 T innerTmp = array[i];
                 array[i] = tmp;
                 tmp = innerTmp;
