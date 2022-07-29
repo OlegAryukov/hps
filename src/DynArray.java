@@ -59,10 +59,10 @@ public class DynArray<T> {
             }
             this.capacity = newCapacity;
             this.array = newArray;
-        } else {
-            T tmp = array[index];
-            for (int i = index; i < count + 1; i++) {
-                if (i == index) {
+        } else if(count!=index) {
+            T tmp = array[index-1];
+            for (int i = index-1; i < count; i++) {
+                if (i == index-1) {
                     array[i] = itm;
                     continue;
                 }
@@ -70,6 +70,8 @@ public class DynArray<T> {
                 array[i] = tmp;
                 tmp = innerTmp;
             }
+        } else {
+            array[index] = itm;
         }
         count++;
     }
