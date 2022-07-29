@@ -18,13 +18,12 @@ public class DynArray<T> {
     public void makeArray(int new_capacity) {
         if (new_capacity >= 16) {
             final T[] newArray = (T[]) Array.newInstance(this.clazz, new_capacity);
-            if (count == 0) {
-                this.array = newArray;
-            } else {
+            if (count != 0) {
                 for (int i = 0; i < capacity; i++) {
                     newArray[i] = this.array[i];
                 }
             }
+            this.array = newArray;
             this.capacity = new_capacity;
         }
     }
