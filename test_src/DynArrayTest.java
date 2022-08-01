@@ -171,7 +171,24 @@ public class DynArrayTest {
         }
         Assert.assertEquals(testArray.getItem(0), Integer.valueOf(5));
         Assert.assertEquals(testArray.getItem(1), Integer.valueOf(6));
-        Assert.assertEquals(16, testArray.capacity);
+        Assert.assertEquals(21, testArray.capacity);
         Assert.assertEquals(13, testArray.count);
+    }
+
+    @Test
+    public void removeItemWithDecreaseCapacityOnLowBorder(){
+        DynArray<Integer> testArray = new DynArray<>(Integer.class);
+        for (int i = 0; i < 18; i++) {
+            testArray.append(i);
+        }
+        Assert.assertEquals(32, testArray.capacity);
+        Assert.assertEquals(18, testArray.count);
+        for (int i = 0; i < 2; i++) {
+            testArray.remove(0);
+        }
+        Assert.assertEquals(testArray.getItem(0), Integer.valueOf(2));
+        Assert.assertEquals(testArray.getItem(1), Integer.valueOf(3));
+        Assert.assertEquals(16, testArray.count);
+        Assert.assertEquals(32, testArray.capacity);
     }
 }

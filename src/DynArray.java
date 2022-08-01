@@ -80,7 +80,7 @@ public class DynArray<T> {
             throw new IndexOutOfBoundsException();
         }
         if (count != 0) {
-            if ((count - 1) <= (int)(capacity / 1.5)) {
+            if ((1 / ((double)capacity / (double)(count-1))) < 0.5) {
                 int newCapacity = Math.max((int) (this.capacity / 1.5), 16);
                 T[] newArray = (T[]) Array.newInstance(this.clazz, newCapacity);
                 int j = 0;
