@@ -45,7 +45,7 @@ public class DynArray<T> {
     public void insert(T itm, int index) {
         if (index < 0 || index > count)
             throw new IndexOutOfBoundsException();
-        if (count + 1 >= capacity) {
+        if (count + 1 > capacity) {
             int newCapacity = this.capacity * 2;
             T[] newArray = (T[]) Array.newInstance(this.clazz, newCapacity);
             int j = 0;

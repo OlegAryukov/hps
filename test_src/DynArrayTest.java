@@ -26,6 +26,7 @@ public class DynArrayTest {
             testArray.insert(17, 3);
         });
     }
+
     @Test
     public void appendItem(){
         DynArray<Integer> testArray = new DynArray<>(Integer.class);
@@ -46,6 +47,21 @@ public class DynArrayTest {
         Assert.assertEquals(testArray.getItem(1), Integer.valueOf(1));
         Assert.assertEquals(16, testArray.capacity);
         Assert.assertEquals(2, testArray.count);
+    }
+
+    @Test
+    public void insertItemFillFullBuffer(){
+        DynArray<Integer> testArray = new DynArray<>(Integer.class);
+        testArray.append(0);
+        testArray.append(1);
+        Assert.assertEquals(16, testArray.capacity);
+        Assert.assertEquals(2, testArray.count);
+        for (int i = 2; i < 15; i++) {
+            testArray.append(i);
+        }
+        testArray.insert(15, 15);
+        Assert.assertEquals(16, testArray.capacity);
+        Assert.assertEquals(16, testArray.count);
     }
 
     @Test
