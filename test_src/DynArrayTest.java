@@ -28,6 +28,17 @@ public class DynArrayTest {
     }
 
     @Test
+    public void removeItemWithException(){
+        DynArray<Integer> testArray = new DynArray<>(Integer.class);
+
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            testArray.remove(0);
+        });
+        Assert.assertEquals(16, testArray.capacity);
+        Assert.assertEquals(0, testArray.count);
+    }
+
+    @Test
     public void appendItem(){
         DynArray<Integer> testArray = new DynArray<>(Integer.class);
         testArray.append(1);
@@ -190,5 +201,10 @@ public class DynArrayTest {
         Assert.assertEquals(testArray.getItem(1), Integer.valueOf(3));
         Assert.assertEquals(16, testArray.count);
         Assert.assertEquals(32, testArray.capacity);
+        testArray.remove(15);
+        Assert.assertEquals(testArray.getItem(0), Integer.valueOf(2));
+        Assert.assertEquals(testArray.getItem(1), Integer.valueOf(3));
+        Assert.assertEquals(15, testArray.count);
+        Assert.assertEquals(21, testArray.capacity);
     }
 }

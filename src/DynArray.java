@@ -76,7 +76,7 @@ public class DynArray<T> {
     }
 
     public void remove(int index) {
-        if (index > count) {
+        if (count == 0 && index > -1) {
             throw new IndexOutOfBoundsException();
         }
         if (count != 0) {
