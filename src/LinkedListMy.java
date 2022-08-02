@@ -1,15 +1,15 @@
 import java.util.ArrayList;
 
-public class LinkedList {
-    public Node head;
-    public Node tail;
+public class LinkedListMy {
+    public Node1 head;
+    public Node1 tail;
 
-    public LinkedList() {
+    public LinkedListMy() {
         head = null;
         tail = null;
     }
 
-    public void addInTail(Node item) {
+    public void addInTail(Node1 item) {
         if (this.head == null)
             this.head = item;
         else
@@ -17,8 +17,8 @@ public class LinkedList {
         this.tail = item;
     }
 
-    public Node find(int value) {
-        Node node = this.head;
+    public Node1 find(int value) {
+        Node1 node = this.head;
         while (node != null) {
             if (node.value == value)
                 return node;
@@ -27,9 +27,9 @@ public class LinkedList {
         return null;
     }
 
-    public ArrayList<Node> findAll(int _value) {
-        ArrayList<Node> nodes = new ArrayList<Node>();
-        Node node = this.head;
+    public ArrayList<Node1> findAll(int _value) {
+        ArrayList<Node1> nodes = new ArrayList<Node1>();
+        Node1 node = this.head;
         while (node != null) {
             if (node.value == _value) {
                 nodes.add(node);
@@ -40,7 +40,7 @@ public class LinkedList {
     }
 
     public boolean remove(int _value) {
-        Node node = this.head;
+        Node1 node = this.head;
         if (node == null) {
             return false;
         }
@@ -68,8 +68,8 @@ public class LinkedList {
     }
 
     public void removeAll(int _value) {
-        Node node = this.head;
-        Node prev = this.head;
+        Node1 node = this.head;
+        Node1 prev = this.head;
         if (node != null) {
             while (node.next != null) {
                 if (node.value == _value) {
@@ -106,7 +106,7 @@ public class LinkedList {
     public int count() {
         if (this.head == null)
             return 0;
-        Node node = this.head;
+        Node1 node = this.head;
         int count = 1;
         while (node.next != null) {
             count++;
@@ -115,7 +115,7 @@ public class LinkedList {
         return count;
     }
 
-    public void insertAfter(Node _nodeAfter, Node _nodeToInsert) {
+    public void insertAfter(Node1 _nodeAfter, Node1 _nodeToInsert) {
         if(_nodeAfter == null){
             if(this.head!=null){
                 _nodeToInsert.next = this.head;
@@ -125,7 +125,7 @@ public class LinkedList {
                 this.tail = _nodeToInsert;
             }
         }
-        Node node = this.head;
+        Node1 node = this.head;
         if(node != null) {
             while (node.next != null) {
                 if (node.equals(_nodeAfter)) {
@@ -145,11 +145,11 @@ public class LinkedList {
     }
 }
 
-class Node {
+class Node1 {
     public int value;
-    public Node next;
+    public Node1 next;
 
-    public Node(int _value) {
+    public Node1(int _value) {
         value = _value;
         next = null;
     }
