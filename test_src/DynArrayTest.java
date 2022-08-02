@@ -39,6 +39,17 @@ public class DynArrayTest {
     }
 
     @Test
+    public void removeItemFromNonEmptyWithException(){
+        DynArray<Integer> testArray = new DynArray<>(Integer.class);
+        testArray.append(0);
+        testArray.append(1);
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            testArray.remove(4);
+        });
+        Assert.assertEquals(16, testArray.capacity);
+        Assert.assertEquals(2, testArray.count);
+    }
+    @Test
     public void appendItem(){
         DynArray<Integer> testArray = new DynArray<>(Integer.class);
         testArray.append(1);
