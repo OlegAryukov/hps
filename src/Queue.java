@@ -18,7 +18,10 @@ public class Queue<T> {
         // выдача из головы
         if (source.size() == 0)
             return null; // null если очередь пустая
-        return source.getFirst();
+
+        T first = source.getFirst();
+        source.removeFirst();
+        return first;
     }
 
     public int size() {
