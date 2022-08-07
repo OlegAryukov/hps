@@ -45,11 +45,12 @@ public class OrderedList<T> {
     }
 
     public void add(T value) {
-        final Node<T> insertNode = new Node<>(value);
+        Node<T> insertNode = new Node<>(value);
         if (this.head == null) {
             this.head = insertNode;
             this.head.next = null;
             this.head.prev = null;
+            this.tail = insertNode;
         } else if (this.tail == null) {
             if (_ascending && compare(value, this.head.value) == -1) {
                 addInHead(this.head, insertNode);
