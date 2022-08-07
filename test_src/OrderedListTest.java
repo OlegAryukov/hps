@@ -11,6 +11,7 @@ public class OrderedListTest {
         orderedList.add(1);
         Assert.assertEquals(orderedList.find(1).value, Integer.valueOf(1));
         Assert.assertEquals(1, orderedList.count());
+        Assert.assertEquals(orderedList.tail, orderedList.find(1));
     }
 
     @Test
