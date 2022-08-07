@@ -99,4 +99,13 @@ public class OrderedListTest {
         Assert.assertArrayEquals(orderedList.getAll().stream().map(value -> value.value).collect(Collectors.toList()).toArray(), new Object[]{4,2,1,0});
     }
 
+    @Test
+    public void removeSingleItem(){
+        OrderedList<Integer> orderedList = new OrderedList<>(false);
+            orderedList.add(1);
+        orderedList.delete(1);
+        Assert.assertEquals(null, orderedList.find(1));
+        Assert.assertEquals(0, orderedList.count());
+    }
+
 }

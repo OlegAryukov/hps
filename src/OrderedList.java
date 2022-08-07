@@ -167,6 +167,8 @@ public class OrderedList<T> {
     }
 
     public void clear(boolean asc) {
+        this.head = null;
+        this.tail = null;
         _ascending = asc;
         // здесь будет ваш код
     }
