@@ -138,13 +138,16 @@ public class OrderedList<T> {
 
     public void delete(T val) {
         Node node = this.head;
+        int countOfDec = 0;
         if (node != null) {
             if (node.value == val) {
                 if (node.next != null) {
                     node.next.prev = null;
                     this.head = node.next;
+                    countOfDec++;
                 } else {
                     clear(this._ascending);
+                    countOfDec++;
                 }
             } else {
                 node = node.next;
@@ -153,15 +156,17 @@ public class OrderedList<T> {
                         if (node.next != null) {
                             node.prev.next = node.next;
                             node.next.prev = node.prev;
+                            countOfDec++;
                         } else {
                             this.tail = node.prev;
                             node.prev.next = null;
+                            countOfDec++;
                         }
                     }
                     node = node.next;
                 }
             }
-            count--;
+            count -= countOfDec;
         }
         // здесь будет ваш код
     }

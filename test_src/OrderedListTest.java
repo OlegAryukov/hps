@@ -108,4 +108,34 @@ public class OrderedListTest {
         Assert.assertEquals(0, orderedList.count());
     }
 
+    @Test
+    public void removeDoubleItemDesc(){
+        OrderedList<Integer> orderedList = new OrderedList<>(false);
+        orderedList.add(1);
+        orderedList.add(2);
+        orderedList.delete(2);
+        Assert.assertEquals(null, orderedList.find(2));
+        Assert.assertEquals(1, orderedList.count());
+    }
+
+    @Test
+    public void removeDoubleItemAsc(){
+        OrderedList<Integer> orderedList = new OrderedList<>(true);
+        orderedList.add(1);
+        orderedList.add(2);
+        orderedList.delete(2);
+        Assert.assertEquals(null, orderedList.find(2));
+        Assert.assertEquals(1, orderedList.count());
+    }
+
+    @Test
+    public void removeAllItemAsc(){
+        OrderedList<Integer> orderedList = new OrderedList<>(true);
+        orderedList.add(1);
+        orderedList.add(2);
+        orderedList.add(2);
+        orderedList.delete(2);
+        Assert.assertEquals(null, orderedList.find(2));
+        Assert.assertEquals(1, orderedList.count());
+    }
 }
