@@ -131,11 +131,20 @@ public class OrderedListTest {
     @Test
     public void removeAllItemAsc(){
         OrderedList<Integer> orderedList = new OrderedList<>(true);
+        orderedList.add(0);
+        orderedList.add(2);
+        orderedList.add(1);
         orderedList.add(1);
         orderedList.add(2);
-        orderedList.add(2);
-        orderedList.delete(2);
-        Assert.assertEquals(null, orderedList.find(2));
-        Assert.assertEquals(1, orderedList.count());
+        orderedList.add(1);
+        orderedList.add(0);
+        orderedList.delete(1);
+        Object[] res = {0, 0, 1, 1, 2, 2};
+        Node node = orderedList.head;
+        for (int i = 0; i < res.length; i++) {
+            Assert.assertEquals(res[i], node.value);
+            node = node.next;
+        }
+        Assert.assertArrayEquals(orderedList.getAll().stream().map(value -> value.value).collect(Collectors.toList()).toArray(), res);
     }
 }

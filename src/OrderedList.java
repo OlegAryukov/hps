@@ -162,6 +162,7 @@ public class OrderedList<T> {
                             node.prev.next = null;
                             countOfDec++;
                         }
+                        break;
                     }
                     node = node.next;
                 }
