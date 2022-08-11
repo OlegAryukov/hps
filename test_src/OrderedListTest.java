@@ -100,6 +100,27 @@ public class OrderedListTest {
     }
 
     @Test
+    public void removeItemLast(){
+        OrderedList<Integer> orderedList = new OrderedList<>(false);
+        for (int i = 0; i < 5; i++) {
+            orderedList.add(i);
+        }
+        orderedList.delete(0);
+        Assert.assertEquals(orderedList.find(1).value, Integer.valueOf(1));
+        Assert.assertEquals(4, orderedList.count());
+        Assert.assertArrayEquals(orderedList.getAll().stream().map(value -> value.value).collect(Collectors.toList()).toArray(), new Object[]{4,3,2,1});
+    }
+    @Test
+    public void removeItemLastFromTwoElements(){
+        OrderedList<Integer> orderedList = new OrderedList<>(false);
+        for (int i = 0; i < 1; i++) {
+            orderedList.add(i);
+        }
+        orderedList.delete(0);
+        Assert.assertEquals(0, orderedList.count());
+    }
+
+    @Test
     public void removeSingleItem(){
         OrderedList<Integer> orderedList = new OrderedList<>(false);
             orderedList.add(1);

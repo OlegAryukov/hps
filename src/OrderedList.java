@@ -147,7 +147,6 @@ public class OrderedList<T> {
                     countOfDec++;
                 } else {
                     clear(this._ascending);
-                    countOfDec++;
                 }
             } else {
                 node = node.next;
