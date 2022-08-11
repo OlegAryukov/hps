@@ -176,6 +176,7 @@ public class OrderedList<T> {
         this.head = null;
         this.tail = null;
         _ascending = asc;
+        count = 0;
         // здесь будет ваш код
     }
 

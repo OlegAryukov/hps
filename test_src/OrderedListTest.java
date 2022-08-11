@@ -147,4 +147,21 @@ public class OrderedListTest {
         }
         Assert.assertArrayEquals(orderedList.getAll().stream().map(value -> value.value).collect(Collectors.toList()).toArray(), res);
     }
+
+    @Test
+    public void clearList(){
+        OrderedList<Integer> orderedList = new OrderedList<>(true);
+        orderedList.add(0);
+        orderedList.add(2);
+        orderedList.add(1);
+        orderedList.add(1);
+        orderedList.add(2);
+        orderedList.add(1);
+        orderedList.add(0);
+        orderedList.clear(true);
+        Assert.assertTrue(orderedList.head==null);
+        Assert.assertTrue(orderedList.tail==null);
+        Assert.assertTrue(orderedList.count()==0);
+
+    }
 }
