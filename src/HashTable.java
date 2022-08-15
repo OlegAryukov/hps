@@ -56,16 +56,14 @@ public class HashTable {
             return slot;
         int firstCode = slot;
         slot+=step;
-        if (slot < slots.length && slots[slot].equalsIgnoreCase(value))
-            return slot;
         while (slot != firstCode) {
+            if (slot < slots.length && slots[slot]!=null && slots[slot].equalsIgnoreCase(value))
+                return slot;
             if (slot + step < slots.length) {
                 slot += step;
             } else {
                 slot = slot - slots.length + step;
             }
-            if(slots[slot].equalsIgnoreCase(value))
-                return slot;
         }
         // находит индекс слота со значением, или -1
         return -1;

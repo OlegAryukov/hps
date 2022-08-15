@@ -42,4 +42,13 @@ public class HashTableTest {
         assertEquals(slot[17], -1);
     }
 
+    @Test
+    public void findNotExistElement(){
+        HashTable testHash = new HashTable(17,3);
+        int[] slot = new int[5];
+        for (int i = 0; i < 5; i++) {
+            slot[i] = testHash.put("test" + i);
+        }
+        assertEquals(-1, testHash.find("test5"));
+    }
 }
