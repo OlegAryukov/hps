@@ -52,7 +52,7 @@ public class HashTable {
 
     public int find(String value) {
         int slot = hashFun(value);
-        if(slots[slot].equalsIgnoreCase(value))
+        if(slots[slot]!=null && slots[slot].equalsIgnoreCase(value))
             return slot;
         int firstCode = slot;
         slot+=step;
