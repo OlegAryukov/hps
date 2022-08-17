@@ -3,29 +3,36 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class HashTableTest {
+public class NativeDictionaryTest {
+
     @Test
     public void putTest(){
-        HashTable testHash = new HashTable(17,3);
-        int slot = testHash.seekSlot("test");
-        assertEquals(slot, testHash.put("test"));
-        assertEquals(slot, testHash.find("test"));
+        NativeDictionary<Integer> testHash = new NativeDictionary<>(16,Integer.class);
+        testHash.put("test", 1);
+        assertEquals(Integer.valueOf(1), testHash.get("test"));
     }
 
 
     @Test
+    public void putTestWithReplace(){
+        NativeDictionary<Integer> testHash = new NativeDictionary<>(16,Integer.class);
+        testHash.put("test", 1);
+        assertEquals(Integer.valueOf(1), testHash.get("test"));
+        testHash.put("test", 3);
+        assertEquals(Integer.valueOf(3), testHash.get("test"));
+    }
+
+    @Test
     public void putTestTwice(){
-        HashTable testHash = new HashTable(17,3);
-        int[] slot = new int[6];
-        slot[5] = testHash.put("test");
-        for (int i = 0; i < 5; i++) {
-            slot[i] = testHash.put("test" + i);
+        NativeDictionary<Integer> testHash = new NativeDictionary<>(16,Integer.class);
+        int[] slots = new int[16];
+        for (int i = 0; i < 16; i++) {
+            slots[i] = i;
+            testHash.put("test" + i, i);
         }
-        for (int i = 0; i < 5; i++) {
-            assertTrue(slot[i] < testHash.size);
+        for (int i = 0; i < 16; i++) {
+            assertEquals(java.util.Optional.of(slots[i]).get(), testHash.get("test"+i));
         }
-        assertEquals(slot[5], testHash.find("test"));
-        assertEquals(slot[0], testHash.find("test0"));
     }
 
     @Test
@@ -49,16 +56,6 @@ public class HashTableTest {
         for (int i = 0; i < 5; i++) {
             slot[i] = testHash.put("test" + i);
         }
-        assertEquals(-1, testHash.find("test5"));
-    }
-
-    @Test
-    public void findNotExistElementInEmpty(){
-        HashTable testHash = new HashTable(17,3);
-//        int[] slot = new int[5];
-//        for (int i = 0; i < 5; i++) {
-//            slot[i] = testHash.put("test" + i);
-//        }
         assertEquals(-1, testHash.find("test5"));
     }
 }
