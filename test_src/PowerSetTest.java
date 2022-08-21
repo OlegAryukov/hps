@@ -102,11 +102,8 @@ public class PowerSetTest {
             testSet2.put("test" + i);
         }
         PowerSet difference = testSet.difference(testSet2);
-        assertTrue(difference.size()==10000);
+        assertTrue(difference.size()==5000);
         for (int i = 0; i <5000 ; i++) {
-            assertTrue(difference.get("test" + i));
-        }
-        for (int i = 10000; i <15000 ; i++) {
             assertTrue(difference.get("test" + i));
         }
     }

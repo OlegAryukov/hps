@@ -49,7 +49,6 @@ public class PowerSet {
     public PowerSet difference(PowerSet set2) {
         PowerSet diff = new PowerSet();
        this.src.keySet().stream().filter(key1-> !set2.src.containsKey(key1)).forEach(diff::put);
-       set2.src.keySet().stream().filter(key2->!this.src.containsKey(key2)).forEach(diff::put);
         // разница текущего множества и set2
         return diff;
     }
