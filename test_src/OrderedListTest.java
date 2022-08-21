@@ -161,7 +161,7 @@ public class OrderedListTest {
         orderedList.add(0);
         orderedList.delete(1);
         Object[] res = {0, 0, 1, 1, 2, 2};
-        Node node = orderedList.head;
+        OrderNode node = orderedList.head;
         for (int i = 0; i < res.length; i++) {
             Assert.assertEquals(res[i], node.value);
             node = node.next;

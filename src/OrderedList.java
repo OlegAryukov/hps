@@ -1,11 +1,11 @@
 import java.util.*;
 
 
-class Node<T> {
+class OrderNode<T> {
     public T value;
-    public Node<T> next, prev;
+    public OrderNode<T> next, prev;
 
-    public Node(T _value) {
+    public OrderNode(T _value) {
         value = _value;
         next = null;
         prev = null;
@@ -13,7 +13,7 @@ class Node<T> {
 }
 
 public class OrderedList<T> {
-    public Node<T> head, tail;
+    public OrderNode<T> head, tail;
     private boolean _ascending;
     private int count;
 
@@ -45,7 +45,7 @@ public class OrderedList<T> {
     }
 
     public void add(T value) {
-        Node<T> insertNode = new Node<>(value);
+        OrderNode<T> insertNode = new OrderNode<>(value);
         if (this.head == null) {
             this.head = insertNode;
             this.head.next = null;
@@ -82,7 +82,7 @@ public class OrderedList<T> {
                     if (compareTail == 1 || compareTail == 0) {
                         addInTail(tail, insertNode);
                     } else {
-                        Node node = this.head;
+                        OrderNode node = this.head;
                         while (node.next != null) {
                             final int compareRes = compare(value, (T) node.next.value);
                             if (compareRes == -1 || compareRes == 0) {
@@ -103,7 +103,7 @@ public class OrderedList<T> {
                     if (compareTail == -1 || compareTail == 0) {
                         addInTail(tail, insertNode);
                     } else {
-                        Node node = this.head;
+                        OrderNode node = this.head;
                         while (node.next != null) {
                             final int compareRes = compare(value, (T) node.next.value);
                             if (compareRes == 1 || compareRes == 0) {
@@ -125,8 +125,8 @@ public class OrderedList<T> {
         // в нужную позицию
     }
 
-    public Node<T> find(T val) {
-        Node node = this.head;
+    public OrderNode<T> find(T val) {
+        OrderNode node = this.head;
         while (node != null) {
             if (node.value == val) {
                 return node;
@@ -137,7 +137,7 @@ public class OrderedList<T> {
     }
 
     public void delete(T val) {
-        Node node = this.head;
+        OrderNode node = this.head;
         int countOfDec = 0;
         if (node != null) {
             if (node.value == val) {
@@ -183,11 +183,11 @@ public class OrderedList<T> {
         return count; // здесь будет ваш код подсчёта количества элементов в списке
     }
 
-    ArrayList<Node<T>> getAll() // выдать все элементы упорядоченного
+    ArrayList<OrderNode<T>> getAll() // выдать все элементы упорядоченного
     // списка в виде стандартного списка
     {
-        ArrayList<Node<T>> r = new ArrayList<Node<T>>();
-        Node<T> node = head;
+        ArrayList<OrderNode<T>> r = new ArrayList<OrderNode<T>>();
+        OrderNode<T> node = head;
         while (node != null) {
             r.add(node);
             node = node.next;
@@ -195,13 +195,13 @@ public class OrderedList<T> {
         return r;
     }
 
-    private void addInHead(Node<T> head, Node<T> _item) {
+    private void addInHead(OrderNode<T> head, OrderNode<T> _item) {
         head.prev = _item;
         _item.next = head;
         this.head = _item;
     }
 
-    private void addInTail(Node<T> tail, Node<T> _item) {
+    private void addInTail(OrderNode<T> tail, OrderNode<T> _item) {
         _item.prev = tail;
         tail.next = _item;
         this.tail = _item;
