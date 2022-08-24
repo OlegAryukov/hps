@@ -1,0 +1,387 @@
+{
+  "result": {
+    "componentResponseDtoList": [
+      {
+        "id": 574,
+        "componentName": "kotik-template",
+        "creatorId": "33",
+        "maintainerId": "corp.dev.vtb/VTB4061257",
+        "maintainer": "Белоусова Александра Владимировна (4061257)",
+        "gitUrl": "https://bitbucket-dev.corp.dev.vtb/scm/dvpr/dvpr-template-a.git",
+        "wikiUrl": null,
+        "componentType": "TEMPLATE",
+        "risStream": null,
+        "system": null,
+        "tags": [
+          {
+            "id": 17,
+            "tagName": "123"
+          },
+          {
+            "id": 58,
+            "tagName": "+™†&\""
+          },
+          {
+            "id": 59,
+            "tagName": "+Тестоыыуцуйцуцувый,ТэгG123™†&\""
+          },
+          {
+            "id": 64,
+            "tagName": "development"
+          },
+          {
+            "id": 69,
+            "tagName": "CRED_SONAR_TOKEN"
+          },
+          {
+            "id": 75,
+            "tagName": "kotchek"
+          },
+          {
+            "id": 78,
+            "tagName": "kot"
+          }
+        ],
+        "creationDate": "2022-05-19T10:28:53.728+00:00",
+        "modificationDate": "2022-07-25T08:09:46.016+00:00",
+        "description": "super template\nочень очень очень очень очень очень очень очень очень очень очень очень очень очень очень очень очень очень очень очень очень очень длинное описание\n",
+        "version": null,
+        "readme": "У данного компонента в репозитории исходного кода отсутствует Readme.md",
+        "isSubscribed": null,
+        "countOfReuse": 11,
+        "cntStars": 4
+      },
+      {
+        "id": 582,
+        "componentName": "template-test",
+        "creatorId": "33",
+        "maintainerId": "region/dvpr_super",
+        "maintainer": "dvpr Super",
+        "gitUrl": "https://bitbucket-dev.corp.dev.vtb/scm/dvpr/dvpr-template-a.git",
+        "wikiUrl": null,
+        "componentType": "TEMPLATE",
+        "risStream": "IT4IT",
+        "system": {
+          "risId": 1663,
+          "smRisId": "1663",
+          "risName": "Портал разработки",
+          "risCode": "DVPR",
+          "risCodeApd": "00.16.01",
+          "risSystemType": "Прикладная",
+          "risStream": "IT4IT",
+          "risItLead": "Гераськин Павел Владимирович",
+          "risArchitect": "Калабухов Александр Сергеевич",
+          "risDevelopment": "Андреева Ирина Петровна",
+          "risDevDepartment": "Управление автоматизации технологического производства",
+          "risStatus": "Эксплуатация"
+        },
+        "tags": [
+          {
+            "id": 2,
+            "tagName": "core"
+          },
+          {
+            "id": 17,
+            "tagName": "123"
+          },
+          {
+            "id": 18,
+            "tagName": "555"
+          },
+          {
+            "id": 58,
+            "tagName": "+™†&\""
+          },
+          {
+            "id": 63,
+            "tagName": "artifact_id"
+          }
+        ],
+        "creationDate": "2022-05-23T15:16:41.057+00:00",
+        "modificationDate": "2022-05-23T15:16:41.057+00:00",
+        "description": "test template",
+        "version": null,
+        "readme": "У данного компонента в репозитории исходного кода отсутствует Readme.md",
+        "isSubscribed": null,
+        "countOfReuse": 3,
+        "cntStars": 3
+      },
+      {
+        "id": 602,
+        "componentName": "fox-template",
+        "creatorId": "3",
+        "maintainerId": "corp.dev.vtb/VTB4061257",
+        "maintainer": "Белоусова Александра Владимировна (4061257)",
+        "gitUrl": "https://bitbucket-dev.corp.dev.vtb/scm/dvpr/dvpr-template-a.git",
+        "wikiUrl": null,
+        "componentType": "TEMPLATE",
+        "risStream": null,
+        "system": null,
+        "tags": [
+          {
+            "id": 55,
+            "tagName": "kotik"
+          },
+          {
+            "id": 75,
+            "tagName": "kotchek"
+          },
+          {
+            "id": 77,
+            "tagName": "fox"
+          },
+          {
+            "id": 78,
+            "tagName": "kot"
+          }
+        ],
+        "creationDate": "2022-06-30T12:35:41.709+00:00",
+        "modificationDate": "2022-06-30T12:35:41.709+00:00",
+        "description": "супер шаблон для тестирования!",
+        "version": null,
+        "readme": "У данного компонента в репозитории исходного кода отсутствует Readme.md",
+        "isSubscribed": null,
+        "countOfReuse": 1,
+        "cntStars": 2
+      },
+      {
+        "id": 615,
+        "componentName": "zhbanov-template-1",
+        "creatorId": "2",
+        "maintainerId": "corp.dev.vtb/VTB204555",
+        "maintainer": "Жбанов Дмитрий Сергеевич",
+        "gitUrl": "https://bitbucket-dev.corp.dev.vtb/scm/dvpr/dvpr-template-a.git",
+        "wikiUrl": null,
+        "componentType": "TEMPLATE",
+        "risStream": "IT4IT",
+        "system": {
+          "risId": 1664,
+          "smRisId": "1664",
+          "risName": "Экспериментальный периметр разработки",
+          "risCode": "DVBX",
+          "risCodeApd": null,
+          "risSystemType": "Прикладная",
+          "risStream": "IT4IT",
+          "risItLead": "Гераськин Павел Владимирович",
+          "risArchitect": "Калабухов Александр Сергеевич",
+          "risDevelopment": "Андреева Ирина Петровна",
+          "risDevDepartment": null,
+          "risStatus": "Планирование"
+        },
+        "tags": [],
+        "creationDate": "2022-08-01T12:32:30.716+00:00",
+        "modificationDate": "2022-08-01T12:32:30.716+00:00",
+        "description": "описание шаблона для портала разработки",
+        "version": null,
+        "readme": "У данного компонента в репозитории исходного кода отсутствует Readme.md",
+        "isSubscribed": null,
+        "countOfReuse": 1,
+        "cntStars": 2
+      },
+      {
+        "id": 569,
+        "componentName": "dvpr-template-a-2",
+        "creatorId": "30",
+        "maintainerId": "corp.dev.vtb/VTB4058192",
+        "maintainer": "Мартынов Дмитрий Сергеевич (4058192)",
+        "gitUrl": "https://bitbucket-dev.corp.dev.vtb/scm/dvpr/dvpr-template-a.git",
+        "wikiUrl": null,
+        "componentType": "TEMPLATE",
+        "risStream": null,
+        "system": null,
+        "tags": [],
+        "creationDate": "2022-05-19T10:07:46.632+00:00",
+        "modificationDate": "2022-07-13T12:42:09.462+00:00",
+        "description": "dvpr-template-a dvpr-template-a-2",
+        "version": null,
+        "readme": "У данного компонента в репозитории исходного кода отсутствует Readme.md",
+        "isSubscribed": null,
+        "countOfReuse": 10,
+        "cntStars": 1
+      },
+      {
+        "id": 610,
+        "componentName": "milota-template",
+        "creatorId": "33",
+        "maintainerId": "corp.dev.vtb/VTB4061257",
+        "maintainer": "Белоусова Александра Владимировна (4061257)",
+        "gitUrl": "https://bitbucket-dev.corp.dev.vtb/scm/dvpr/dvpr-template-a.git",
+        "wikiUrl": null,
+        "componentType": "TEMPLATE",
+        "risStream": null,
+        "system": null,
+        "tags": [],
+        "creationDate": "2022-07-21T13:36:54.122+00:00",
+        "modificationDate": "2022-07-21T13:36:54.122+00:00",
+        "description": "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "version": null,
+        "readme": "У данного компонента в репозитории исходного кода отсутствует Readme.md",
+        "isSubscribed": null,
+        "countOfReuse": 1,
+        "cntStars": 1
+      },
+      {
+        "id": 617,
+        "componentName": "teplota-template",
+        "creatorId": "33",
+        "maintainerId": "corp.dev.vtb/VTB4061257",
+        "maintainer": "Белоусова Александра Владимировна (4061257)",
+        "gitUrl": "https://bitbucket-dev.corp.dev.vtb/scm/dvpr/dvpr-template-a.git",
+        "wikiUrl": null,
+        "componentType": "TEMPLATE",
+        "risStream": "IT4IT",
+        "system": {
+          "risId": 1663,
+          "smRisId": "1663",
+          "risName": "Портал разработки",
+          "risCode": "DVPR",
+          "risCodeApd": "00.16.01",
+          "risSystemType": "Прикладная",
+          "risStream": "IT4IT",
+          "risItLead": "Гераськин Павел Владимирович",
+          "risArchitect": "Калабухов Александр Сергеевич",
+          "risDevelopment": "Андреева Ирина Петровна",
+          "risDevDepartment": "Управление автоматизации технологического производства",
+          "risStatus": "Эксплуатация"
+        },
+        "tags": [],
+        "creationDate": "2022-08-02T09:53:38.575+00:00",
+        "modificationDate": "2022-08-02T09:53:38.575+00:00",
+        "description": "Шаблон для тестирования.\n",
+        "version": null,
+        "readme": "У данного компонента в репозитории исходного кода отсутствует Readme.md",
+        "isSubscribed": null,
+        "countOfReuse": 1,
+        "cntStars": 1
+      },
+      {
+        "id": 594,
+        "componentName": "empty-dvpr-template",
+        "creatorId": "2",
+        "maintainerId": "corp.dev.vtb/VTB204555",
+        "maintainer": "Жбанов Дмитрий Сергеевич",
+        "gitUrl": "https://bitbucket-dev.corp.dev.vtb/scm/dvpr/kotik-servise.git",
+        "wikiUrl": null,
+        "componentType": "TEMPLATE",
+        "risStream": null,
+        "system": null,
+        "tags": [],
+        "creationDate": "2022-06-08T06:48:01.899+00:00",
+        "modificationDate": "2022-06-08T06:48:55.642+00:00",
+        "description": "шаблон с отсутствием dvpr_vars",
+        "version": null,
+        "readme": "У данного компонента в репозитории исходного кода отсутствует Readme.md",
+        "isSubscribed": null,
+        "countOfReuse": 0,
+        "cntStars": 1
+      },
+      {
+        "id": 621,
+        "componentName": "tort-template",
+        "creatorId": "3",
+        "maintainerId": "corp.dev.vtb/VTB4061257",
+        "maintainer": "Белоусова Александра Владимировна (4061257)",
+        "gitUrl": "https://bitbucket-dev.corp.dev.vtb/scm/dvpr/dvpr-template-a.git",
+        "wikiUrl": null,
+        "componentType": "TEMPLATE",
+        "risStream": "IT4IT",
+        "system": {
+          "risId": 1663,
+          "smRisId": "1663",
+          "risName": "Портал разработки",
+          "risCode": "DVPR",
+          "risCodeApd": "00.16.01",
+          "risSystemType": "Прикладная",
+          "risStream": "IT4IT",
+          "risItLead": "Гераськин Павел Владимирович",
+          "risArchitect": "Калабухов Александр Сергеевич",
+          "risDevelopment": "Андреева Ирина Петровна",
+          "risDevDepartment": "Управление автоматизации технологического производства",
+          "risStatus": "Эксплуатация"
+        },
+        "tags": [
+          {
+            "id": 17,
+            "tagName": "123"
+          },
+          {
+            "id": 58,
+            "tagName": "+™†&\""
+          },
+          {
+            "id": 64,
+            "tagName": "development"
+          },
+          {
+            "id": 69,
+            "tagName": "CRED_SONAR_TOKEN"
+          }
+        ],
+        "creationDate": "2022-08-11T08:50:08.913+00:00",
+        "modificationDate": "2022-08-11T08:50:08.913+00:00",
+        "description": "шаблон без переменных",
+        "version": null,
+        "readme": "У данного компонента в репозитории исходного кода отсутствует Readme.md",
+        "isSubscribed": null,
+        "countOfReuse": 1,
+        "cntStars": 0
+      },
+      {
+        "id": 627,
+        "componentName": "dvpr-golden-template-light",
+        "creatorId": "1",
+        "maintainerId": "corp.dev.vtb/VTB70150927",
+        "maintainer": "Дятел Сергей Николаевич",
+        "gitUrl": "https://bitbucket-dev.corp.dev.vtb/scm/dvpr/dvpr-golden-template-light.git",
+        "wikiUrl": null,
+        "componentType": "TEMPLATE",
+        "risStream": "IT4IT",
+        "system": {
+          "risId": 1663,
+          "smRisId": "1663",
+          "risName": "Портал разработки",
+          "risCode": "DVPR",
+          "risCodeApd": "00.16.01",
+          "risSystemType": "Прикладная",
+          "risStream": "IT4IT",
+          "risItLead": "Гераськин Павел Владимирович",
+          "risArchitect": "Калабухов Александр Сергеевич",
+          "risDevelopment": "Андреева Ирина Петровна",
+          "risDevDepartment": "Управление автоматизации технологического производства",
+          "risStatus": "Эксплуатация"
+        },
+        "tags": [],
+        "creationDate": "2022-08-19T14:03:24.348+00:00",
+        "modificationDate": "2022-08-19T14:03:24.348+00:00",
+        "description": "dvpr-golden-template-light dvpr-golden-template-light",
+        "version": null,
+        "readme": "У данного компонента в репозитории исходного кода отсутствует Readme.md",
+        "isSubscribed": null,
+        "countOfReuse": 1,
+        "cntStars": 0
+      },
+      {
+        "id": 629,
+        "componentName": "test",
+        "creatorId": "3",
+        "maintainerId": "corp.dev.vtb/VTB4059462",
+        "maintainer": "Крылов Максим Константинович (4059462)",
+        "gitUrl": "https://bitbucket.region.vtb.ru/scm/dvpr/dvpr-golden-template.git",
+        "wikiUrl": null,
+        "componentType": "TEMPLATE",
+        "risStream": null,
+        "system": null,
+        "tags": [],
+        "creationDate": "2022-08-22T08:47:11.396+00:00",
+        "modificationDate": "2022-08-22T08:47:11.396+00:00",
+        "description": "ячсячс",
+        "version": null,
+        "readme": "У данного компонента в репозитории исходного кода отсутствует Readme.md",
+        "isSubscribed": null,
+        "countOfReuse": 0,
+        "cntStars": 0
+      }
+    ],
+    "totalNumberOfElements": 11
+  }
+}

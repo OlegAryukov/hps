@@ -1,63 +1,58 @@
-import java.util.HashMap;
-import java.util.Map;
-
 public class PowerSet {
-    Map<String, String> src;
-
-    public PowerSet() {
-        this.src = new HashMap<>();
+    public PowerSet()
+    {
+        // ваша реализация хранилища
     }
 
-    public int size() {
+    public int size()
+    {
         // количество элементов в множестве
-        return src.size();
+        return 0;
     }
 
 
-    public void put(String value) {
-        if (!src.containsKey(value))
-            src.put(value, value);
+    public void put(String value)
+    {
         // всегда срабатывает
     }
 
-    public boolean get(String value) {
-
+    public boolean get(String value)
+    {
         // возвращает true если value имеется в множестве,
         // иначе false
-        return src.containsKey(value);
+        return false;
     }
 
-    public boolean remove(String value) {
-        return src.remove(value, value);
+    public boolean remove(String value)
+    {
+        // возвращает true если value удалено
+        // иначе false
+        return false;
     }
 
-    public PowerSet intersection(PowerSet set2) {
-        PowerSet intersection = new PowerSet();
-        src.keySet().stream().filter(key1 -> set2.src.containsKey(key1)).forEach(keyUnion -> intersection.put(keyUnion));
+    public PowerSet intersection(PowerSet set2)
+    {
         // пересечение текущего множества и set2
-        return intersection;
+        return null;
     }
 
-    public PowerSet union(PowerSet set2) {
-        PowerSet union = new PowerSet();
-        union.src.putAll(this.src);
-        set2.src.keySet().forEach(union::put);
+    public PowerSet union(PowerSet set2)
+    {
         // объединение текущего множества и set2
-        return union;
+        return null;
     }
 
-    public PowerSet difference(PowerSet set2) {
-        PowerSet diff = new PowerSet();
-       this.src.keySet().stream().filter(key1-> !set2.src.containsKey(key1)).forEach(diff::put);
+    public PowerSet difference(PowerSet set2)
+    {
         // разница текущего множества и set2
-        return diff;
+        return null;
     }
 
-    public boolean isSubset(PowerSet set2) {
-
+    public boolean isSubset(PowerSet set2)
+    {
         // возвращает true, если set2 есть
         // подмножество текущего множества,
         // иначе false
-        return this.src.keySet().containsAll(set2.src.keySet());
+        return false;
     }
 }
