@@ -186,13 +186,13 @@ public class OrderedList<T> {
     ArrayList<OrderNode<T>> getAll() // выдать все элементы упорядоченного
     // списка в виде стандартного списка
     {
-        ArrayList<OrderNode<T>> r = new ArrayList<OrderNode<T>>();
+        ArrayList<OrderNode<T>> allElementsOfOrderList = new ArrayList<OrderNode<T>>();
         OrderNode<T> node = head;
         while (node != null) {
-            r.add(node);
+            allElementsOfOrderList.add(node);
             node = node.next;
         }
-        return r;
+        return allElementsOfOrderList;
     }
 
     private void addInHead(OrderNode<T> head, OrderNode<T> _item) {

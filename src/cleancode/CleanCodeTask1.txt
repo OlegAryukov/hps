@@ -1,0 +1,35 @@
+code - valueHashCode
+//хэш код значения
+
+slot - indexForValue
+//индекс позиции для значения
+
+slot - indexForKey
+//индекс позиции для ключа
+
+i - indexForKey
+//индекс позиции для ключа
+
+tmp - previousValueStorage
+//переменная для хранения предыдущего элемента
+
+innerTmp - temporaryCurrentValueStorage
+//временная переменная для хранения текущего элемнта элемента
+
+r - allElementsOfOrderList
+//все элементы упорядоченного списка
+
+res - hashCodeOfInputValue
+//хэш код входного значения
+
+code - innerCycleHashCode;
+//хэш код вычисляемый на каждом шагу цикла
+
+index - indexOfBitPosition
+//индекс позиции бита
+
+index1 - indexOfBitPositionByFirstHashFunc
+//индекс позиции бита от первой хэш функции
+
+index2 - indexOfBitPositionBySecondHashFunc
+//индекс позиции бита от второй хэш функции

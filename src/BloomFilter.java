@@ -17,40 +17,40 @@ public class BloomFilter {
 
     // хэш-функции
     public int hash1(String str1) {
-        int res = 0;
+        int hashCodeOfInputValue = 0;
         // 17
         for (int i = 0; i < str1.length(); i++) {
-            int code = (res * 17 + (int) str1.charAt(i)) % filter_len;
-            res = code;
+            int innerCycleHashCode = (hashCodeOfInputValue * 17 + (int) str1.charAt(i)) % filter_len;
+            hashCodeOfInputValue = innerCycleHashCode;
         }
         // реализация ...
-        return res;
+        return hashCodeOfInputValue;
     }
 
     public int hash2(String str1) {
         // 223
-        int res = 0;
+        int hashCodeOfInputValue = 0;
         for (int i = 0; i < str1.length(); i++) {
-            int code = (res * 223 + (int) str1.charAt(i)) % filter_len;
-            res = code;
+            int innerCycleHashCode = (hashCodeOfInputValue * 223 + (int) str1.charAt(i)) % filter_len;
+            hashCodeOfInputValue = innerCycleHashCode;
         }
         // реализация ...
-        return res;
+        return hashCodeOfInputValue;
     }
 
     public void add(String str1) {
-        int index = hash1(str1);
-        setBit(index);
-        index = hash2(str1);
-        setBit(index);
+        int indexOfBitPosition = hash1(str1);
+        setBit(indexOfBitPosition);
+        indexOfBitPosition = hash2(str1);
+        setBit(indexOfBitPosition);
         // добавляем строку str1 в фильтр
     }
 
     public boolean isValue(String str1) {
         // проверка, имеется ли строка str1 в фильтре
-        int index1 = hash1(str1);
-        int index2 = hash2(str1);
-        if(getBit(index1) == 0 || getBit(index2) ==0 )
+        int indexOfBitPositionByFirstHashFunc = hash1(str1);
+        int indexOfBitPositionBySecondHashFunc = hash2(str1);
+        if(getBit(indexOfBitPositionByFirstHashFunc) == 0 || getBit(indexOfBitPositionBySecondHashFunc) ==0 )
             return false;
 
         //иначе элемент вероятно есть

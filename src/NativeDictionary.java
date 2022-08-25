@@ -19,10 +19,10 @@ public class NativeDictionary<T> {
     }
 
     public boolean isKey(String key) {
-        int slot = find(key);
-        if (slot == -1)
+        int indexForKey = find(key);
+        if (indexForKey == -1)
             return false;
-        if (slots[slot] != null && slots[slot].equals(key))
+        if (slots[indexForKey] != null && slots[indexForKey].equals(key))
             return true;
         // возвращает true если ключ имеется,
         // иначе false
@@ -31,12 +31,12 @@ public class NativeDictionary<T> {
 
     public void put(String key, T value) {
         if (isKey(key)) {
-            int i = find(key);
-            values[i] = value;
+            int indexForKey = find(key);
+            values[indexForKey] = value;
         } else {
-            int slot = seekSlot(key);
-            slots[slot] = key;
-            values[slot] = value;
+            int indexForKey = seekSlot(key);
+            slots[indexForKey] = key;
+            values[indexForKey] = value;
         }
         // гарантированно записываем
         // значение value по ключу key

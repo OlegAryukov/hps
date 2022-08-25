@@ -17,13 +17,13 @@ public class HashTable {
     }
 
     public int seekSlot(String value) {
-        int code = hashFun(value);
-        int firstStep = code + step;
-        if (slots[code] == null)
-            return code;
+        int valueHashCode = hashFun(value);
+        int firstStep = valueHashCode + step;
+        if (slots[valueHashCode] == null)
+            return valueHashCode;
         if (firstStep < slots.length && slots[firstStep] == null)
             return firstStep;
-        while (firstStep != code) {
+        while (firstStep != valueHashCode) {
             if (firstStep + step < slots.length) {
                 firstStep += step;
             } else {
@@ -37,10 +37,10 @@ public class HashTable {
     }
 
     public int put(String value) {
-        int slot = seekSlot(value);
-        if(slot!=-1) {
-            slots[slot] = value;
-            return slot;
+        int indexForValue = seekSlot(value);
+        if(indexForValue!=-1) {
+            slots[indexForValue] = value;
+            return indexForValue;
         }
 
         // записываем значение по хэш-функции
@@ -51,18 +51,18 @@ public class HashTable {
     }
 
     public int find(String value) {
-        int slot = hashFun(value);
-        if(slots[slot]!=null && slots[slot].equalsIgnoreCase(value))
-            return slot;
-        int firstCode = slot;
-        slot+=step;
-        while (slot != firstCode) {
-            if (slot < slots.length && slots[slot]!=null && slots[slot].equalsIgnoreCase(value))
-                return slot;
-            if (slot + step < slots.length) {
-                slot += step;
+        int indexForValue = hashFun(value);
+        if(slots[indexForValue]!=null && slots[indexForValue].equalsIgnoreCase(value))
+            return indexForValue;
+        int firstCode = indexForValue;
+        indexForValue+=step;
+        while (indexForValue != firstCode) {
+            if (indexForValue < slots.length && slots[indexForValue]!=null && slots[indexForValue].equalsIgnoreCase(value))
+                return indexForValue;
+            if (indexForValue + step < slots.length) {
+                indexForValue += step;
             } else {
-                slot = slot - slots.length + step;
+                indexForValue = indexForValue - slots.length + step;
             }
         }
         // находит индекс слота со значением, или -1

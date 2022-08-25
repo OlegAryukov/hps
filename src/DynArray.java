@@ -62,12 +62,12 @@ public class DynArray<T> {
         } else if (count == index) {
             array[count] = itm;
         } else if (index < count){
-            T tmp = array[index];
+            T previousValueStorage = array[index];
             array[index] = itm;
             for (int i = index+1; i < capacity; i++) {
-                T innerTmp = array[i];
-                array[i] = tmp;
-                tmp = innerTmp;
+                T temporaryCurrentValueStorage = array[i];
+                array[i] = previousValueStorage;
+                previousValueStorage = temporaryCurrentValueStorage;
             }
         } else {
             array[index] = itm;
