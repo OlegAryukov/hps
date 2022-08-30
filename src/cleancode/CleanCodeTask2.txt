@@ -1,0 +1,41 @@
+6.1
+    countOfReuseTemplateInServices
+    //количество переиспользования шаблона в сервисах
+    userIdToUserLoginMap
+    //маппинг Id пользователя на его логин
+    userLoginsList
+    //список логинов пользователей
+    componentByIdMap
+    //маппинг компонентов на их Id
+    componentsNoSubscriberList
+    //список компонентов без подписчиков
+
+
+6.2
+    kafkaTemplate
+    MessageProducer
+    objectMapper
+    nexusClient
+    NexusManager
+
+6.3
+    public void toggleActivateCheckListStatus(Integer checkListId) {
+            checkListManager.togleActivateCheckListStatus(checkListId);
+    }
+        //checkListId идентификатор необходимого чек-листа
+
+    public List<TopTemplateDto> getTopTemplates(Integer count, Integer templateTypeId) {
+            List<FrontTemplateRepository.TopTemplate> topTemplate = templateService.getTopTemplate(count, templateTypeId);
+
+    //templateTypeId тип шаблона
+
+    public void importTemplate(String authorization, TemplateImportRequestDto templateImportRequestDto) {
+        //templateImportRequestDto - объект передающий данные необходимые для импорта шаблона
+    }
+
+6.4
+    countOfReuseTemplateInServices - cntOfReuseTempInServ
+    componentsNoSubscriberList - compNoSubscriberList
+    userLoginAsMaintainer - maintainerUserLogin
+    userComponentSubscriptions - compIdsOfUsrSubsList
+    userSubscribedComponents - compInUsrSubsList
