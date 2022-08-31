@@ -15,7 +15,8 @@ public class PowerSet {
 
 
     public void put(String value) {
-        if (!src.containsKey(value))
+        boolean contains = src.containsKey(value);
+        if (!contains)
             src.put(value, value);
         // всегда срабатывает
     }

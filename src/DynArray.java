@@ -19,9 +19,7 @@ public class DynArray<T> {
         if (new_capacity >= 16) {
             final T[] newArray = (T[]) Array.newInstance(this.clazz, new_capacity);
             if (count != 0) {
-                for (int i = 0; i < capacity; i++) {
-                    newArray[i] = this.array[i];
-                }
+                if (capacity >= 0) System.arraycopy(this.array, 0, newArray, 0, capacity);
             }
             this.array = newArray;
             this.capacity = new_capacity;
@@ -61,10 +59,10 @@ public class DynArray<T> {
             this.array = newArray;
         } else if (count == index) {
             array[count] = itm;
-        } else if (index < count){
+        } else if (index < count) {
             T previousValueStorage = array[index];
             array[index] = itm;
-            for (int i = index+1; i < capacity; i++) {
+            for (int i = index + 1; i < capacity; i++) {
                 T temporaryCurrentValueStorage = array[i];
                 array[i] = previousValueStorage;
                 previousValueStorage = temporaryCurrentValueStorage;
@@ -80,27 +78,28 @@ public class DynArray<T> {
             throw new IndexOutOfBoundsException();
         }
         if (count != 0) {
-            if ((1 / ((double)capacity / (double)(count-1))) < 0.5) {
+            final boolean needChangeCapacity = (1 / ((double) capacity / (double) (count - 1))) < 0.5;
+            if (needChangeCapacity) {
                 int newCapacity = Math.max((int) (this.capacity / 1.5), 16);
                 T[] newArray = (T[]) Array.newInstance(this.clazz, newCapacity);
-                int j = 0;
-                for (int i = 0; i < count; i++) {
-                    if (i == index) {
-                        newArray[j] = array[i + 1];
-                        i++;
-                        j++;
+                int newArrIndex = 0;
+                for (int scrArrIndex = 0; scrArrIndex < count; scrArrIndex++) {
+                    if (scrArrIndex == index) {
+                        newArray[newArrIndex] = array[scrArrIndex + 1];
+                        scrArrIndex++;
+                        newArrIndex++;
                         continue;
                     }
-                    newArray[j] = array[i];
-                    j++;
+                    newArray[newArrIndex] = array[scrArrIndex];
+                    newArrIndex++;
                 }
                 this.array = newArray;
                 this.capacity = newCapacity;
             } else {
-                int j = index;
-                for (int i = index; i < capacity - 1; i++) {
-                    array[j] = array[i + 1];
-                    j++;
+                int newIndex = index;
+                for (int oldIndex = index; oldIndex < capacity - 1; oldIndex++) {
+                    array[newIndex] = array[oldIndex + 1];
+                    newIndex++;
                 }
             }
             count--;

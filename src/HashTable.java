@@ -29,7 +29,7 @@ public class HashTable {
             } else {
                 firstStep = firstStep - slots.length + step;
             }
-            if(slots[firstStep]==null)
+            if (slots[firstStep] == null)
                 return firstStep;
         }
         // находит индекс пустого слота для значения, или -1
@@ -38,7 +38,7 @@ public class HashTable {
 
     public int put(String value) {
         int indexForValue = seekSlot(value);
-        if(indexForValue!=-1) {
+        if (indexForValue != -1) {
             slots[indexForValue] = value;
             return indexForValue;
         }
@@ -52,12 +52,12 @@ public class HashTable {
 
     public int find(String value) {
         int indexForValue = hashFun(value);
-        if(slots[indexForValue]!=null && slots[indexForValue].equalsIgnoreCase(value))
+        if (slots[indexForValue] != null && slots[indexForValue].equalsIgnoreCase(value))
             return indexForValue;
         int firstCode = indexForValue;
-        indexForValue+=step;
+        indexForValue += step;
         while (indexForValue != firstCode) {
-            if (indexForValue < slots.length && slots[indexForValue]!=null && slots[indexForValue].equalsIgnoreCase(value))
+            if (indexForValue < slots.length && slots[indexForValue] != null && slots[indexForValue].equalsIgnoreCase(value))
                 return indexForValue;
             if (indexForValue + step < slots.length) {
                 indexForValue += step;

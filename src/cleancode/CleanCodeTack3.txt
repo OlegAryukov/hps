@@ -1,0 +1,93 @@
+7.1
+    isNexusEnable - nexusEnable
+    isNotificationServiceEnable - notifyServEnable
+    isDeploymentAdminToolEnable - deployAdmToolEnable
+    isTeamCityEnable - teamCityEnable
+    isSwaggerEnable - swaggerEnable
+
+7.2
+    boolean contains = src.containsKey(value);
+    boolean isKey = isKey(key);
+7.3
+    if (needChangeCapacity) {
+                    int newCapacity = Math.max((int) (this.capacity / 1.5), 16);
+                    T[] newArray = (T[]) Array.newInstance(this.clazz, newCapacity);
+                    int newArrIndex = 0;
+                    for (int scrArrIndex = 0; scrArrIndex < count; scrArrIndex++) {
+                        if (scrArrIndex == index) {
+                            newArray[newArrIndex] = array[scrArrIndex + 1];
+                            scrArrIndex++;
+                            newArrIndex++;
+                            continue;
+                        }
+                        newArray[newArrIndex] = array[scrArrIndex];
+                        newArrIndex++;
+                    }
+                    this.array = newArray;
+                    this.capacity = newCapacity;
+                } else {
+                    int newIndex = index;
+                    for (int oldIndex = index; oldIndex < capacity - 1; oldIndex++) {
+                        array[newIndex] = array[oldIndex + 1];
+                        newIndex++;
+                    }
+                }
+7.4
+        Не нашел
+7.5
+    БЫЛО
+        private int find(String value) {
+                int slot = hashFun(value);
+                if (slots[slot] != null && slots[slot].equalsIgnoreCase(value))
+                    return slot;
+                int firstCode = slot;
+                slot += step;
+                while (slot != firstCode) {
+                    if (slot < slots.length && slots[slot] != null && slots[slot].equalsIgnoreCase(value))
+                        return slot;
+                    if (slot + step < slots.length) {
+                        slot += step;
+                    } else {
+                        slot = slot - slots.length + step;
+                    }
+                }
+                // находит индекс слота со значением, или -1
+                return -1;
+            }
+    СТАЛО
+        private int find(String value) {
+                int firstFindSlot = hashFun(value);
+                if (slots[firstFindSlot] != null && slots[firstFindSlot].equalsIgnoreCase(value))
+                    return firstFindSlot;
+                int nextSlot = firstFindSlot + step;
+                while (nextSlot != firstFindSlot) {
+                    if (nextSlot < slots.length && slots[nextSlot] != null && slots[nextSlot].equalsIgnoreCase(value))
+                        return nextSlot;
+                    if (nextSlot + step < slots.length) {
+                        nextSlot += step;
+                    } else {
+                        nextSlot = nextSlot - slots.length + step;
+                    }
+                }
+                // находит индекс слота со значением, или -1
+                return -1;
+            }
+
+    БЫЛО
+            public boolean isKey(String key) {
+                int slot = find(key);
+                if (slot == -1)
+                    return false;
+                if (slots[slot] != null && slots[slot].equals(key))
+                    return true;
+                // возвращает true если ключ имеется,
+                // иначе false
+                return false;
+            }
+    СТАЛО
+            public boolean isKey(String key) {
+                int slot = find(key);
+                if (slot == -1)
+                    return false;
+                return (slots[slot] != null && slots[slot].equals(key));
+            }

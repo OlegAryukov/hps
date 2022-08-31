@@ -71,18 +71,17 @@ public class NativeDictionary<T> {
     }
 
     private int find(String value) {
-        int slot = hashFun(value);
-        if (slots[slot] != null && slots[slot].equalsIgnoreCase(value))
-            return slot;
-        int firstCode = slot;
-        slot += step;
-        while (slot != firstCode) {
-            if (slot < slots.length && slots[slot] != null && slots[slot].equalsIgnoreCase(value))
-                return slot;
-            if (slot + step < slots.length) {
-                slot += step;
+        int firstFindSlot = hashFun(value);
+        if (slots[firstFindSlot] != null && slots[firstFindSlot].equalsIgnoreCase(value))
+            return firstFindSlot;
+        int nextSlot = firstFindSlot + step;
+        while (nextSlot != firstFindSlot) {
+            if (nextSlot < slots.length && slots[nextSlot] != null && slots[nextSlot].equalsIgnoreCase(value))
+                return nextSlot;
+            if (nextSlot + step < slots.length) {
+                nextSlot += step;
             } else {
-                slot = slot - slots.length + step;
+                nextSlot = nextSlot - slots.length + step;
             }
         }
         // находит индекс слота со значением, или -1
