@@ -1,5 +1,35 @@
 public class    LinkedList2Tests {
     public static void main(String[] args) {
+        String test = new String("dn: DC=dvrp-test-ldap,DC=local\n" +
+                "objectClass: domain\n" +
+                "objectClass: domainDNS\n" +
+                "objectClass: top\n" +
+                "dc: dvrp-test-ldap\n" +
+                "instanceType: 5\n" +
+                "objectCategory: CN=Domain-DNS,CN=Schema,CN=Configuration,DC=dvrp-test-ldap,DC=local\n" +
+                "auditingPolicy:: AAE=\n" +
+                "creationTime: 132836056087313612\n" +
+                "---\n"+
+                "distinguishedName: DC=dvrp-test-ldap,DC=local\n" +
+                "dSASignature:: AQAAACgAAAAAAAAAAAAAAAAAAAAAAAAAZLV2zkmCP02AousIhVpHCw==\n" +
+                "dSCorePropagationData: 16010101000000.0Z\n" +
+                "forceLogoff: -9223372036854775808\n" +
+                "fSMORoleOwner: CN=NTDS Settings,CN=D5DVPR-APC002WK,CN=Servers,CN=Default-Fir\n" +
+                " st-Site-Name,CN=Sites,CN=Configuration,DC=dvrp-test-ldap,DC=local\n" +
+                "gPLink: [LDAP://CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=Policies,CN=Sys\n" +
+                " tem,DC=dvrp-test-ldap,DC=local;0]\n" +
+                "---\n"+
+                "isCriticalSystemObject: TRUE\n" +
+                "lockoutDuration: -18000000000\n" +
+                "lockOutObservationWindow: -18000000000\n" +
+                "lockoutThreshold: 0");
+        final String[] split = test.split("---");
+        for (int i = 0; i < split.length; i++) {
+            split[i] = split[i].trim();
+        }
+        for (String str:split) {
+            System.out.println(str);
+        }
         Node2 one = new Node2(1);
         Node2 two = new Node2(2);
         Node2 three = new Node2(3);

@@ -1,0 +1,12 @@
+host - teamCityHost
+componentSubscriptions - subscriptionsOfCompn
+subscriptions - compIdToSubsStateMap
+componentSubscriptions - compIdsOfUserSubs
+system - informSystem
+plcmProjectByIdentificationCode - plcmProject
+plcmResponse - plcmInformation
+metrics - prometheusMetrics
+resources - hardwareResources
+resourcePermission - permissForModifyRes
+availableRisIds - userAvailInfoSysList
+systemMap - sysIdToSysMap
