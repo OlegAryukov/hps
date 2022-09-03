@@ -1,0 +1,18 @@
+3.1
+    ComponentService - ComponentDbOperation
+    LibraryManager - LibraryBusinessLogic
+    ServiceManagerService - ServiceManagerDbOperation
+    ServiceManagerResultDto - ServiceUpdateResultDto
+    DeployInfoService - DeployInfoDbOperation
+
+3.2
+    createUserStar() - setUserStarToComponentFromUser()
+    updateUserStar() - changeUserStarStateForComponent()
+    getUserStarByUserLogin() - checkExistUserStarForComponent()
+    getComponentsCount() - getComponentsCountOfAllTypes()
+    getComponentMonthDiff() - getComponentCountDiffByMonth()
+    DeployInfoManager - DeployInfoBusinessLogic
+    CheckListManager - CheckListDbOperation
+
+
+
