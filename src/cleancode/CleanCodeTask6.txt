@@ -1,0 +1,12 @@
+getVulnerabilities() - getVulnerabilitiesV1Api() //обращение к разным версиям API
+getVulnerabilitiesV2() - getVulnerabilitiesV2Api() //обращение к разным версиям API
+getAllStreams() - getAllItInfraStreams() //потоки не информативно - потоки айти инфраструктуры понятно
+getProjects() - getAllItProjectsDesc() //получение описания всех проект IT в контуре
+deactivateComponent() - deactivateComponentAndRemoveFromService() //метод делает слишком много необходим рефакторинг метода и затем его переименование
+notifyDeactivate() - deactivateNotifyForUser() // отклчение нотификации для пользователя
+getComponentCheckListScore() - getCheckListInfoForComponent() //получение детальной информации о чек листах для конкретного компонента
+createGroupLdapQuery() - createLdapQuerySearchingGroupsContainsUser() //создание запроса к LDAP для поиска групп в которых состоит пользователь
+removeInvalidateTokens() - removeInvalidateTokensByPeriod() //очистка токенов за определенный период
+getSystemRole() - getUserRoleForSystem() //получение роли пользователя для системы
+getSystem() - getOrCreateSystemByName() //получение или создание Информ системы
+extractSystem() - extractSystemNameFromAuthority() //извлечение имени системы из авторизации
