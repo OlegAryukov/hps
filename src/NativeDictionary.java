@@ -13,6 +13,11 @@ public class NativeDictionary<T> {
         step = 3;
     }
 
+    public static NativeDictionary withCustomStepSize(int sz, Class clazz, int step) {
+        NativeDictionary nativeDictionary = new NativeDictionary(sz, clazz);
+        nativeDictionary.step = step;
+        return nativeDictionary;
+    }
     public int hashFun(String key) {
         return key.hashCode() & (size - 1);
         // всегда возвращает корректный индекс слота

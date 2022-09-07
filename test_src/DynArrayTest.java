@@ -9,7 +9,7 @@ public class DynArrayTest {
 
     @Test
     public void exceptionTest(){
-        DynArray<Integer> testArray = new DynArray<>(Integer.class);
+        DynArray<Integer> testArray = DynArray.defaultCapacity(Integer.class);
         assertThrows(IndexOutOfBoundsException.class, () -> {
             testArray.getItem(17);
         });

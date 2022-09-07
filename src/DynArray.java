@@ -7,12 +7,28 @@ public class DynArray<T> {
     public int capacity;
     Class clazz;
 
-    public DynArray(Class clz) {
-        clazz = clz; // нужен для безопасного приведения типов
+    public DynArray(Class clazz) {
+        this.clazz = clazz;
+    }
+
+    public static DynArray defaultCapacity(Class clz) {
+        final DynArray<Object> dynArray = new DynArray<>(clz);
+         // нужен для безопасного приведения типов
         // new DynArray<Integer>(Integer.class);
 
-        count = 0;
-        makeArray(16);
+        dynArray.setCount(0);
+        dynArray.setCapacity(16);
+        return dynArray;
+    }
+
+    public static DynArray customCapacity(Class clz, int capacity) {
+        final DynArray<Object> dynArray = new DynArray<>(clz);
+        // нужен для безопасного приведения типов
+        // new DynArray<Integer>(Integer.class);
+
+        dynArray.setCount(0);
+        dynArray.setCapacity(capacity);
+        return dynArray;
     }
 
     public void makeArray(int new_capacity) {
@@ -113,5 +129,14 @@ public class DynArray<T> {
         }
         System.out.print("\n");
     }
+
+    private void setCount(int count) {
+        this.count = count;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
 }
 

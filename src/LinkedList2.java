@@ -9,6 +9,15 @@ public class LinkedList2 {
         tail = null;
     }
 
+    public static LinkedList2 withHeadAndTail(Node2 head, Node2 tail) {
+        LinkedList2 linkedList2 = new LinkedList2();
+        head.next = tail;
+        tail.prev = head;
+        linkedList2.head = head;
+        linkedList2.tail = tail;
+        return linkedList2;
+    }
+
     public void addInTail(Node2 _item) {
         if (head == null) {
             this.head = _item;

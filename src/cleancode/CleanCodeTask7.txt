@@ -1,0 +1,69 @@
+public class DynArray<T> {
+
+    public T[] array;
+    public int count;
+    public int capacity;
+    Class clazz;
+
+    public DynArray(Class clazz) {
+        this.clazz = clazz;
+    }
+
+    public static DynArray defaultCapacity(Class clz) {
+        final DynArray<Object> dynArray = new DynArray<>(clz);
+
+        dynArray.setCount(0);
+        dynArray.setCapacity(16);
+        return dynArray;
+    }
+
+    public static DynArray customCapacity(Class clz, int capacity) {
+        final DynArray<Object> dynArray = new DynArray<>(clz);
+
+        dynArray.setCount(0);
+        dynArray.setCapacity(capacity);
+        return dynArray;
+    }
+}
+
+public class NativeDictionary<T> {
+    public int size;
+    public String[] slots;
+    public T[] values;
+    private int step;
+
+    public NativeDictionary(int sz, Class clazz) {
+        size = sz;
+        slots = new String[size];
+        values = (T[]) Array.newInstance(clazz, this.size);
+        step = 3;
+    }
+
+    public static NativeDictionary withCustomStepSize(int sz, Class clazz, int step) {
+        NativeDictionary nativeDictionary = new NativeDictionary(sz, clazz);
+        nativeDictionary.step = step;
+        return nativeDictionary;
+    }
+}
+
+interface TeamCityClient - class TeamCityClientDev / TeamCityClientProd / TeamCityClientFix
+
+
+public class LinkedList2 {
+    public Node2 head;
+    public Node2 tail;
+
+    public LinkedList2() {
+        head = null;
+        tail = null;
+    }
+
+    public static LinkedList2 withHeadAndTail(Node2 head, Node2 tail) {
+        LinkedList2 linkedList2 = new LinkedList2();
+        head.next = tail;
+        tail.prev = head;
+        linkedList2.head = head;
+        linkedList2.tail = tail;
+        return linkedList2;
+    }
+}
