@@ -1,0 +1,12 @@
+ENDPOINTS_DELIMETR - ENDPOINTS_STRING_TO_VALUES_SPLITTER регэксп для разделения строки ендпоинтов
+TOKENS_DELIMETR - TOKENS_STRING_TO_VALUES_SPLITTER регэксп для разделения строки токенов
+DELAY_TYPE - DELAY_MEASUREMENT_VALUE указание единицы измерения задержки
+FEIGN_AUTH_READ_TIMEOUT - FEIGN_AUTH_READ_TIMEOUT_MSC указание единицы измерения таймаута
+FEIGN_CONTROL_PLANE_READ_TIMEOUT - FEIGN_CONTROL_PLANE_READ_TIMEOUT_MSC указание единицы измерения таймаута
+KEY_STORE_LOCATION - KEY_STORE_PATH указание пути к кей сторам
+TEMPLATES_REPO - TEMPLATES_REPO_URL указание урл к репозиториям
+GIT_USERNAME_READ - GIT_LOGIN_FOR_READ Логин пользователя с возможностью чтения
+GIT_ACCESSTOKEN_READ -GIT_ACCESSTOKEN_FOR_READ Токен пользователя с возможностью чтения
+TEMPLATE_IGNORE_FILES - IGNORED_TEMPLATE_FILES файлы для игнорирования из темплейтов
+ROOT_POINT - LDAP_ROOT_POINT корневая точка в дерикториях LDAP
+PASSWORD - LDAP_PASSWORD пароль LDAP
