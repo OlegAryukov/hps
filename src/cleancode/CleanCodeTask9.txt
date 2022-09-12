@@ -1,0 +1,33 @@
+1       int innerCycleHashCode = (hashCodeOfInputValue * 223 + (int) str1.charAt(i)) % filter_len;
+       hashCodeOfInputValue = innerCycleHashCode;
+      ->
+       hashCodeOfInputValue = (hashCodeOfInputValue * 223 + (int) str1.charAt(i)) % filter_len;
+
+2
+    было
+             int j = 0;
+                for (int i = 0; i < count + 1; i++) {
+                    if (i == index) {
+                        newArray[i] = itm;
+                        continue;
+                    }
+                    newArray[i] = array[j];
+                    j++;
+                }
+    стало
+        int oldIndexAfterInsert = 0;
+             for (int oldIndexBeforeInsert = 0; oldIndexBeforeInsert < count + 1; oldIndexBeforeInsert++) {
+                  if (oldIndexBeforeInsert == index) {
+                       newArray[oldIndexBeforeInsert] = itm;
+                          continue;
+                       }
+                       newArray[oldIndexBeforeInsert] = array[oldIndexAfterInsert];
+                        oldIndexAfterInsert++;
+                  }
+3
+    this.hashMask = (int) (1L << f_len) - 1;
+
+    стало
+    this.hashMask = (1 << f_len) - 1;
+
+Примеров приведения типов данных или работы с числами в коде не нашел.
