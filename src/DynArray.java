@@ -59,17 +59,18 @@ public class DynArray<T> {
     public void insert(T itm, int index) {
         if (index < 0 || index > count)
             throw new IndexOutOfBoundsException();
-        if (count + 1 > capacity) {
+        final boolean capacityFull = count + 1 > capacity;
+        if (capacityFull) {
             int newCapacity = this.capacity * 2;
             T[] newArray = (T[]) Array.newInstance(this.clazz, newCapacity);
-            int j = 0;
-            for (int i = 0; i < count + 1; i++) {
-                if (i == index) {
-                    newArray[i] = itm;
+            int oldIndexAfterInsert = 0;
+            for (int oldIndexBeforeInsert = 0; oldIndexBeforeInsert < count + 1; oldIndexBeforeInsert++) {
+                if (oldIndexBeforeInsert == index) {
+                    newArray[oldIndexBeforeInsert] = itm;
                     continue;
                 }
-                newArray[i] = array[j];
-                j++;
+                newArray[oldIndexBeforeInsert] = array[oldIndexAfterInsert];
+                oldIndexAfterInsert++;
             }
             this.capacity = newCapacity;
             this.array = newArray;
@@ -96,7 +97,8 @@ public class DynArray<T> {
         if (count != 0) {
             final boolean needChangeCapacity = (1 / ((double) capacity / (double) (count - 1))) < 0.5;
             if (needChangeCapacity) {
-                int newCapacity = Math.max((int) (this.capacity / 1.5), 16);
+                int calcCapacity = (int) (this.capacity / 1.5);
+                int newCapacity = Math.max(calcCapacity, 16);
                 T[] newArray = (T[]) Array.newInstance(this.clazz, newCapacity);
                 int newArrIndex = 0;
                 for (int scrArrIndex = 0; scrArrIndex < count; scrArrIndex++) {
@@ -111,6 +113,7 @@ public class DynArray<T> {
                 }
                 this.array = newArray;
                 this.capacity = newCapacity;
+
             } else {
                 int newIndex = index;
                 for (int oldIndex = index; oldIndex < capacity - 1; oldIndex++) {

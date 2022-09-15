@@ -1,0 +1,86 @@
+1
+    было
+            public List<CheckListResponseDto> getAllCheckListResponse() {
+                CheckListComparator checkListComparator = new CheckListComparator();
+                List<CheckList> res = checkListRepository.findAll();
+                res.sort(checkListComparator);
+                return checkListMapper.toCheckResponseDtoList(res);
+            }
+    стало
+            public List<CheckListResponseDto> getAllCheckListResponse() {
+                List<CheckList> res = checkListRepository.findAll();
+                res.sort(new CheckListComparator());
+                return checkListMapper.toCheckResponseDtoList(res);
+            }
+2
+    было
+            public void deactivateComponent(String authorization, Integer componentId) {
+                Component component = componentService.findByIdAndComponentState(componentId, ComponentState.ACTIVE);
+                int affectedRows = componentRepository.deactivateComponent(componentId);
+                if (affectedRows < 1) {
+                    throw new ActiveComponentNotFoundException();
+                }
+                searchElasticService.deleteComponentFromElastic(componentId, authorization);
+                notificationService.notifyDeactivate(component, authorization);
+                auditService.putSuccessDeregisterRecord(authorization, componentId);
+            }
+    стало
+            public void deactivateComponent(String authorization, Integer componentId) {
+                int affectedRows = componentRepository.deactivateComponent(componentId);
+                if (affectedRows < 1) {
+                    throw new ActiveComponentNotFoundException();
+                }
+                searchElasticService.deleteComponentFromElastic(componentId, authorization);
+                Component component = componentService.findByIdAndComponentState(componentId, ComponentState.ACTIVE);
+                notificationService.notifyDeactivate(component, authorization);
+                auditService.putSuccessDeregisterRecord(authorization, componentId);
+            }
+3
+    было
+        private ComponentListResponseDto getComponentListResponseDtoWithReuseCount(Page<Component> componentList) {
+            Map<Integer, Integer> countOfReuseTemplateInServices = getCountOfReuseTemplateInServices();
+            ComponentListResponseDto componentListResponseDto = componentMapper.toComponentListResponseDto(componentList.getContent(), componentList.getTotalElements());
+            return countOfReuseTemplateInServices == null ? componentListResponseDto : setCountOfReuseInTemplateDtoResponse(componentListResponseDto, countOfReuseTemplateInServices);
+        }
+    стало
+        private ComponentListResponseDto getComponentListResponseDtoWithReuseCount(Page<Component> componentList) {
+            ComponentListResponseDto componentListResponseDto = componentMapper.toComponentListResponseDto(componentList.getContent(), componentList.getTotalElements());
+            return countOfReuseTemplateInServices == null ? componentListResponseDto : setCountOfReuseInTemplateDtoResponse(componentListResponseDto, getCountOfReuseTemplateInServices());
+        }
+4
+    валидация параметров при запуске
+            @PostConstruct
+            public void init() {
+                log.info("TeamCityUserConfiguration apiEndpoint:{}", apiEndpoints);
+                if (StringUtil.EMPTY.equals(this.apiEndpoints) || StringUtil.EMPTY.equals(this.userTokens)) {
+                    log.warn("Некорректная конфигурация аутентификации в TeamCity, необходимо задать apiEndpoint и userToken");
+                }
+            }
+5
+    было
+        int delay = longPollingTimeOutResolver.getMscDelay();
+    стало
+        int delayMsc = longPollingTimeOutResolver.getMscDelay();
+6
+    было
+         int newCapacity = Math.max((int) (this.capacity / 1.5), 16);
+         T[] newArray = (T[]) Array.newInstance(this.clazz, newCapacity);
+    стало
+                    int calcCapacity = (int) (this.capacity / 1.5);
+                    int newCapacity = Math.max(calcCapacity, 16);
+                     T[] newArray = (T[]) Array.newInstance(this.clazz, newCapacity);
+7
+    константы
+        private static final int DELAY_STEP_MINUS = 10;
+        private static final int STEP_ONE = 1;
+        private static final int STEP_SECOND = 2;
+        private static final int NO_DELAY = 0;
+8
+    было
+        if (count + 1 > capacity) {
+    стало
+        final boolean capacityFull = count + 1 > capacity;
+            if (capacityFull) {
+
+
+    Больше примеров не смог найти

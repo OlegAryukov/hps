@@ -8,7 +8,7 @@ public class BloomFilter {
 
     public BloomFilter(int f_len) {
         filter_len = f_len;
-        this.hashMask = (int) (1L << f_len) - 1;
+        this.hashMask = (1 << f_len) - 1;
 
         //размер битового массива
         this.bit_array_size = f_len;
@@ -31,8 +31,7 @@ public class BloomFilter {
         // 223
         int hashCodeOfInputValue = 0;
         for (int i = 0; i < str1.length(); i++) {
-            int innerCycleHashCode = (hashCodeOfInputValue * 223 + (int) str1.charAt(i)) % filter_len;
-            hashCodeOfInputValue = innerCycleHashCode;
+            hashCodeOfInputValue = (hashCodeOfInputValue * 223 + (int) str1.charAt(i)) % filter_len;
         }
         // реализация ...
         return hashCodeOfInputValue;
@@ -50,7 +49,7 @@ public class BloomFilter {
         // проверка, имеется ли строка str1 в фильтре
         int indexOfBitPositionByFirstHashFunc = hash1(str1);
         int indexOfBitPositionBySecondHashFunc = hash2(str1);
-        if(getBit(indexOfBitPositionByFirstHashFunc) == 0 || getBit(indexOfBitPositionBySecondHashFunc) ==0 )
+        if (getBit(indexOfBitPositionByFirstHashFunc) == 0 || getBit(indexOfBitPositionBySecondHashFunc) == 0)
             return false;
 
         //иначе элемент вероятно есть
@@ -65,6 +64,6 @@ public class BloomFilter {
 
     public void setBit(int index) {
         //= битовая карта OR 1 смещенное влево на index
-        this.filter_len = this.filter_len | (1 << index );
+        this.filter_len = this.filter_len | (1 << index);
     }
 }
