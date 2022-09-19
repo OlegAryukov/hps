@@ -1,0 +1,309 @@
+1
+    было
+                private TokensDTO createRefreshToken(String userName, User user) {
+                    String refreshToken = UUID.randomUUID().toString();
+                    String rt = tokenGenerator.generateRefreshToken(user, refreshToken);
+                    refreshTokenRepository.saveAndFlush(new RefreshToken(null, refreshToken, user, false));
+                    log.info("Refresh JWT токен для логин: {} сохранен в БД", userName);
+                    String at = tokenGenerator.generateAccessToken(user);
+                    return new TokensDTO(at, rt, user.getId(), userName);
+                }
+    стало
+               private TokensDTO createRefreshToken(String userName, User user) {
+                   String refreshToken = UUID.randomUUID().toString();
+                   refreshTokenRepository.saveAndFlush(new RefreshToken(null, refreshToken, user, false));
+                   log.info("Refresh JWT токен для логин: {} сохранен в БД", userName);
+                   String at = tokenGenerator.generateAccessToken(user);
+                   String rt = tokenGenerator.generateRefreshToken(user, refreshToken);
+                   return new TokensDTO(at, rt, user.getId(), userName);
+               }
+2
+    было
+           @Transactional
+           public void deactivateComponent(String authorization, Integer componentId) {
+               int affectedRows = componentRepository.deactivateComponent(componentId);
+               if (affectedRows < 1) {
+                   throw new ActiveComponentNotFoundException();
+               }
+               searchElasticService.deleteComponentFromElastic(componentId, authorization);
+               Component component = componentService.findByIdAndComponentState(componentId, ComponentState.ACTIVE);
+               notificationService.notifyDeactivate(component, authorization);
+               auditService.putSuccessDeregisterRecord(authorization, componentId);
+           }
+    стало
+                   @Transactional
+                   public void deactivateComponent(String authorization, Integer componentId) {
+                       int affectedRows = componentRepository.deactivateComponent(componentId);
+                       if (affectedRows < 1) {
+                           throw new ActiveComponentNotFoundException();
+                       }
+                       searchElasticService.deleteComponentFromElastic(componentId, authorization);
+                       Component component = componentService.findByIdAndComponentState(componentId, ComponentState.ACTIVE);
+                       notificationService.notifyDeactivate(component, authorization);
+                       auditService.putSuccessDeregisterRecord(authorization, componentId);
+                   }
+
+3
+    было
+     public List<UserSubscribedComponentsRs> subscribeAllUserOnTheirCreatedComponents(String authorization) {
+            Map<String, Set<Integer>> mapForNewSubscribe = new HashMap<>();
+
+            List<UsersLoginWithIdDTO> usersLoginWithIdDTOS = devportalAuthClient.usersLoginWithId(authorization);
+            Map<String, String> userIdToUserLoginMap = usersLoginWithIdDTOS.stream().collect(Collectors.toMap(UsersLoginWithIdDTO::getUserId, UsersLoginWithIdDTO::getUserLogin));
+            Map<String, List<String>> userLoginToUserIdMap = usersLoginWithIdDTOS.stream()
+                    .collect(groupingBy(UsersLoginWithIdDTO::getUserLogin,
+                            Collectors.mapping(UsersLoginWithIdDTO::getUserId, Collectors.toList())));
+
+            List<String> userIdsList = new ArrayList<>(userIdToUserLoginMap.keySet());
+            List<String> userLoginsList = userLoginToUserIdMap.values().stream().flatMap(List::stream).collect(Collectors.toList());
+
+            Map<String, Component> componentByIdMap = componentService.findComponentByMaintainerIdOrCreatorId(userIdsList, userLoginsList, ComponentState.ACTIVE)
+                    .stream().collect(Collectors.toMap(component -> String.valueOf(component.getId()), Function.identity()));
+
+            final List<SubscriptionByComponentIdRs> allSubscriptions = notificationService.getAllSubscriptions(authorization);
+            for (int i = 0; i < allSubscriptions.size(); i++) {
+                List<String> usersIdByUserLoginFromComponentSubscription =
+                        allSubscriptions.get(i).getUserLogins().stream()
+                                .filter(e -> !isNumeric(e) && userLoginToUserIdMap.get(e) != null)
+                                .map(userLoginToUserIdMap::get)
+                                .flatMap(List::stream)
+                                .collect(Collectors.toList());
+                String componentId = allSubscriptions.get(i).getComponentId();
+                if (isNumeric(componentId)) {
+                    Component component = componentByIdMap.get(componentId);
+                    if (component != null) {
+                        if (component.getCreatorId() != null && !usersIdByUserLoginFromComponentSubscription.contains(component.getCreatorId())) {
+                            final String userLogin = userIdToUserLoginMap.get(component.getCreatorId());
+                            addingComponentForSubscribe(mapForNewSubscribe, componentId, userLogin);
+                        }
+                        if (component.getMaintainerId() != null && !allSubscriptions.get(i).getUserLogins().contains(component.getMaintainerId().toLowerCase(Locale.ROOT))) {
+                            final String userLogin = component.getMaintainerId();
+                            addingComponentForSubscribe(mapForNewSubscribe, componentId, userLogin);
+                        }
+                        componentByIdMap.remove(componentId);
+                    }
+                }
+            }
+            if (!componentByIdMap.isEmpty()) {
+                List<Component> componentsWithoutSubscriber = new ArrayList<>(componentByIdMap.values());
+                for (int i = 0; i < componentsWithoutSubscriber.size(); i++) {
+                    String componentId = String.valueOf(componentsWithoutSubscriber.get(i).getId());
+                    String userLoginAsCreator = userIdToUserLoginMap.get(componentsWithoutSubscriber.get(i).getCreatorId());
+                    String userLoginAsMaintainer = componentsWithoutSubscriber.get(i).getMaintainerId();
+                    if (userLoginAsCreator.equalsIgnoreCase(userLoginAsMaintainer)) {
+                        if (mapForNewSubscribe.get(userLoginAsCreator.toLowerCase(Locale.ROOT)) == null && mapForNewSubscribe.get(userLoginAsMaintainer.toLowerCase(Locale.ROOT)) == null) {
+                            addingComponentForSubscribe(mapForNewSubscribe, componentId, userLoginAsCreator.toLowerCase(Locale.ROOT));
+                            continue;
+                        }
+                        mapForNewSubscribe.get(userLoginAsCreator.toLowerCase(Locale.ROOT)).add(componentsWithoutSubscriber.get(i).getId());
+                        continue;
+                    }
+                    checkAndAddingNewSubscriberForCreatorOrMaintainer(mapForNewSubscribe, componentsWithoutSubscriber, componentId, userLoginAsCreator);
+                    checkAndAddingNewSubscriberForCreatorOrMaintainer(mapForNewSubscribe, componentsWithoutSubscriber, componentId, userLoginAsMaintainer);
+                }
+            }
+            List<UserSubscribedComponentsRs> userSubscribedComponentsRs = new ArrayList<>();
+            if (!mapForNewSubscribe.isEmpty()) {
+                Set<String> users = mapForNewSubscribe.keySet();
+                for (String user : users) {
+                    log.info("Для пользователя с логином :{} отправлен запрос на подписку для следующих компонентов :{}", user, mapForNewSubscribe.get(user));
+
+                    userSubscribedComponentsRs.addAll(notificationService.subscribeUserToComponents(authorization, user, new ArrayList<>(mapForNewSubscribe.get(user)))
+                            .getUserSubscribedComponentsRs());
+                }
+            }
+            return userSubscribedComponentsRs;
+        }
+
+    стало
+                 public List<UserSubscribedComponentsRs> subscribeAllUserOnTheirCreatedComponents(String authorization) {
+                                    Map<String, Set<Integer>> mapForNewSubscribe = new HashMap<>();
+
+                                    List<UsersLoginWithIdDTO> usersLoginWithIdDTOS = devportalAuthClient.usersLoginWithId(authorization);
+                                    Map<String, String> userIdToUserLoginMap = usersLoginWithIdDTOS.stream().collect(Collectors.toMap(UsersLoginWithIdDTO::getUserId, UsersLoginWithIdDTO::getUserLogin));
+                                    Map<String, List<String>> userLoginToUserIdMap = usersLoginWithIdDTOS.stream()
+                                            .collect(groupingBy(UsersLoginWithIdDTO::getUserLogin,
+                                                    Collectors.mapping(UsersLoginWithIdDTO::getUserId, Collectors.toList())));
+
+                                    List<String> userIdsList = new ArrayList<>(userIdToUserLoginMap.keySet());
+                                    List<String> userLoginsList = userLoginToUserIdMap.values().stream().flatMap(List::stream).collect(Collectors.toList());
+
+                                    Map<String, Component> componentByIdMap = componentService.findComponentByMaintainerIdOrCreatorId(userIdsList, userLoginsList, ComponentState.ACTIVE)
+                                            .stream().collect(Collectors.toMap(component -> String.valueOf(component.getId()), Function.identity()));
+
+                                    final List<SubscriptionByComponentIdRs> allSubscriptions = notificationService.getAllSubscriptions(authorization);
+                                    addingComponentForSubscribe(mapForNewSubscribe, userIdToUserLoginMap, userLoginToUserIdMap, componentByIdMap, allSubscriptions);
+                                    if (!componentByIdMap.isEmpty()) {
+                                        addUsersForSubscribe(mapForNewSubscribe, userIdToUserLoginMap, componentByIdMap);
+                                    }
+                                    List<UserSubscribedComponentsRs> userSubscribedComponentsRs = new ArrayList<>();
+                                    if (!mapForNewSubscribe.isEmpty()) {
+                                        Set<String> users = mapForNewSubscribe.keySet();
+                                        for (String user : users) {
+                                            log.info("Для пользователя с логином :{} отправлен запрос на подписку для следующих компонентов :{}", user, mapForNewSubscribe.get(user));
+
+                                            userSubscribedComponentsRs.addAll(notificationService.subscribeUserToComponents(authorization, user, new ArrayList<>(mapForNewSubscribe.get(user)))
+                                                    .getUserSubscribedComponentsRs());
+                                        }
+                                    }
+                                    return userSubscribedComponentsRs;
+                                }
+
+                                private void addingComponentForSubscribe(Map<String, Set<Integer>> mapForNewSubscribe, Map<String, String> userIdToUserLoginMap, Map<String, List<String>> userLoginToUserIdMap, Map<String, Component> componentByIdMap, List<SubscriptionByComponentIdRs> allSubscriptions) {
+                                        for (int i = 0; i < allSubscriptions.size(); i++) {
+                                            List<String> usersIdByUserLoginFromComponentSubscription =
+                                                    allSubscriptions.get(i).getUserLogins().stream()
+                                                            .filter(e -> !isNumeric(e) && userLoginToUserIdMap.get(e) != null)
+                                                            .map(userLoginToUserIdMap::get)
+                                                            .flatMap(List::stream)
+                                                            .collect(Collectors.toList());
+                                            String componentId = allSubscriptions.get(i).getComponentId();
+                                            if (isNumeric(componentId)) {
+                                                Component component = componentByIdMap.get(componentId);
+                                                if (component != null) {
+                                                    if (component.getCreatorId() != null && !usersIdByUserLoginFromComponentSubscription.contains(component.getCreatorId())) {
+                                                        final String userLogin = userIdToUserLoginMap.get(component.getCreatorId());
+                                                        addingComponentForSubscribe(mapForNewSubscribe, componentId, userLogin);
+                                                    }
+                                                    if (component.getMaintainerId() != null && !allSubscriptions.get(i).getUserLogins().contains(component.getMaintainerId().toLowerCase(Locale.ROOT))) {
+                                                        final String userLogin = component.getMaintainerId();
+                                                        addingComponentForSubscribe(mapForNewSubscribe, componentId, userLogin);
+                                                    }
+                                                    componentByIdMap.remove(componentId);
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    private void addUsersForSubscribe(Map<String, Set<Integer>> mapForNewSubscribe, Map<String, String> userIdToUserLoginMap, Map<String, Component> componentByIdMap) {
+                                        List<Component> componentsWithoutSubscriber = new ArrayList<>(componentByIdMap.values());
+                                        for (int i = 0; i < componentsWithoutSubscriber.size(); i++) {
+                                            String componentId = String.valueOf(componentsWithoutSubscriber.get(i).getId());
+                                            String userLoginAsCreator = userIdToUserLoginMap.get(componentsWithoutSubscriber.get(i).getCreatorId());
+                                            String userLoginAsMaintainer = componentsWithoutSubscriber.get(i).getMaintainerId();
+                                            if (userLoginAsCreator.equalsIgnoreCase(userLoginAsMaintainer)) {
+                                                if (mapForNewSubscribe.get(userLoginAsCreator.toLowerCase(Locale.ROOT)) == null && mapForNewSubscribe.get(userLoginAsMaintainer.toLowerCase(Locale.ROOT)) == null) {
+                                                    addingComponentForSubscribe(mapForNewSubscribe, componentId, userLoginAsCreator.toLowerCase(Locale.ROOT));
+                                                    continue;
+                                                }
+                                                mapForNewSubscribe.get(userLoginAsCreator.toLowerCase(Locale.ROOT)).add(componentsWithoutSubscriber.get(i).getId());
+                                                continue;
+                                            }
+                                            checkAndAddingNewSubscriberForCreatorOrMaintainer(mapForNewSubscribe, componentsWithoutSubscriber, componentId, userLoginAsCreator);
+                                            checkAndAddingNewSubscriberForCreatorOrMaintainer(mapForNewSubscribe, componentsWithoutSubscriber, componentId, userLoginAsMaintainer);
+                                        }
+                                    }
+
+4
+    было
+               @Transactional(readOnly = true)
+                  public List<TopTemplateDto> getTopTemplates(Integer count, Integer templateTypeId) {
+                      List<FrontTemplateRepository.TopTemplate> topTemplate = templateService.getTopTemplate(count, templateTypeId);
+                      List<Integer> componentIds = topTemplate.stream().map(FrontTemplateRepository.TopTemplate::getTemplateId).collect(Collectors.toList());
+                      Map<Integer, Integer> mapComponentIdToUserStars = userStarManager.getTopOfUsersStarsComponent(componentIds)
+                              .stream().collect(Collectors.toMap(UserStarsRepository.UserQueryResult::getComponentId, UserStarsRepository.UserQueryResult::getCountOfStars));
+
+                      List<TopTemplateDto> topTemplates = topTemplateMapper.toTemplateResponseDtoList(topTemplate);
+                      for (TopTemplateDto templateDto : topTemplates) {
+                          if (mapComponentIdToUserStars.containsKey(templateDto.getTemplateId())) {
+                              templateDto.setStars(mapComponentIdToUserStars.get(templateDto.getTemplateId()));
+                              continue;
+                          }
+                          templateDto.setStars(0);
+                      }
+
+                      return topTemplates.stream()
+                              .sorted(Comparator.comparing(TopTemplateDto::getStars)
+                                      .thenComparing(TopTemplateDto::getTemplateCntReuse).reversed())
+                              .collect(Collectors.toList());
+                  }
+    стало
+                  @Transactional(readOnly = true)
+                  public List<TopTemplateDto> getTopTemplates(Integer count, Integer templateTypeId) {
+                      List<FrontTemplateRepository.TopTemplate> topTemplate = templateService.getTopTemplate(count, templateTypeId);
+                      List<Integer> componentIds = topTemplate.stream().map(FrontTemplateRepository.TopTemplate::getTemplateId).collect(Collectors.toList());
+                      Map<Integer, Integer> mapComponentIdToUserStars = userStarManager.getTopOfUsersStarsComponent(componentIds)
+                              .stream().collect(Collectors.toMap(UserStarsRepository.UserQueryResult::getComponentId, UserStarsRepository.UserQueryResult::getCountOfStars));
+
+                      return getTopTemplateDtos(topTemplate, mapComponentIdToUserStars);
+                  }
+
+                  private List<TopTemplateDto> getTopTemplateDtos(List<FrontTemplateRepository.TopTemplate> topTemplate, Map<Integer, Integer> mapComponentIdToUserStars) {
+                      List<TopTemplateDto> topTemplates = topTemplateMapper.toTemplateResponseDtoList(topTemplate);
+                      for (TopTemplateDto templateDto : topTemplates) {
+                          if (mapComponentIdToUserStars.containsKey(templateDto.getTemplateId())) {
+                              templateDto.setStars(mapComponentIdToUserStars.get(templateDto.getTemplateId()));
+                              continue;
+                          }
+                          templateDto.setStars(0);
+                      }
+
+                      return topTemplates.stream()
+                              .sorted(Comparator.comparing(TopTemplateDto::getStars)
+                                      .thenComparing(TopTemplateDto::getTemplateCntReuse).reversed())
+                              .collect(Collectors.toList());
+                  }
+5   было
+                      @Transactional
+                      public System updateSystem(SystemUpdateRequestDto systemUpdateRequestDto) {
+                          System system = systemMapper.toSystem(systemUpdateRequestDto);
+                          Optional<Integer> risId = systemRepository.findRisIdBySmRisId(system.getSmRisId());
+                          if (risId.isPresent()) {
+                              system.setRisId(risId.get());
+                          }
+                          system = systemRepository.save(system);
+                          return system;
+                      }
+  стало
+
+  6 было
+                      @Transactional
+                      public System updateSystem(SystemUpdateRequestDto systemUpdateRequestDto) {
+                          System system = systemMapper.toSystem(systemUpdateRequestDto);
+                          Optional<Integer> risId = systemRepository.findRisIdBySmRisId(system.getSmRisId());
+                          if (risId.isPresent()) {
+                              system.setRisId(risId.get());
+                          }
+                          return systemRepository.save(system);
+                      }
+
+                      private final ConcurrentHashMap<String, Boolean> checkMap = new ConcurrentHashMap<>();
+                      ....
+                      private void runOnAllDataSources() throws LiquibaseException {
+                              fillChekMapByDefaultValues(checkMap);
+                              dataSources.forEach((tenant, dataSource) -> {
+                                  log.info("Initializing Liquibase for data source " + tenant);
+                                  final LiquibaseProperties liquibaseProperties = propertiesDataSources.get(tenant);
+                                  SpringLiquibase liquibase = getSpringLiquibase(dataSource, liquibaseProperties);
+                                  if (taskExecutor != null) {
+                                      taskExecutor.execute(() -> {
+                                          try {
+                                              log.warn(STARTING_ASYNC_MESSAGE);
+                                              initDb(liquibase, tenant);
+                                              if (checkMap.get(tenant) != null) {
+                                                  checkMap.put(tenant, true);
+                                              }
+                                          } catch (LiquibaseException e) {
+                                              log.error(EXCEPTION_MESSAGE, e.getMessage(), e);
+                                          }
+                                      });
+                                  } else {
+                                      try {
+                                          log.warn(STARTING_SYNC_MESSAGE);
+                                          initDb(liquibase, tenant);
+                                          if (checkMap.get(tenant) != null) {
+                                              checkMap.put(tenant, true);
+                                          }
+                                      } catch (LiquibaseException e) {
+                                          log.error(EXCEPTION_MESSAGE, e.getMessage(), e);
+                                      }
+                                  }
+
+                                  log.info("Liquibase ran for data source " + tenant);
+                              });
+                          }
+  стало
+
+  private void runOnAllDataSources() throws LiquibaseException {
+  final ConcurrentHashMap<String, Boolean> checkMap = new ConcurrentHashMap<>();
+                                fillChekMapByDefaultValues(checkMap);
