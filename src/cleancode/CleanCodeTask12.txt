@@ -1,0 +1,44 @@
+1
+Магические константы используемые для создания запроса и не зависящие от внешних факторов
+    private static final Integer COUNT_OF_ENTRIES = 10;
+    private static final String LDAP_OBJECT_CATEGORY = "objectCategory";
+    private static final String LDAP_OBJECT_CLASS = "objectClass";
+    private static final String PERSON_CRITERIA = "person";
+    private static final String USER_CRITERIA = "user";
+
+        @Override
+        public List<LdapPersonDto> getAllPersons(String searchCriteria, String domain) {
+            boolean regionLdapEnable;
+
+            final LdapQuery queryRegion = createLdapQuery(baseRegion, searchCriteria);
+            final LdapQuery queryVtb = createLdapQuery(baseVtb, searchCriteria);
+
+            ldapVtbTemplate.setDefaultCountLimit(COUNT_OF_ENTRIES);
+            ldapRegionTemplate.setDefaultCountLimit(COUNT_OF_ENTRIES);
+
+            private LdapQuery createLdapQuery(String baseDirectorySearch, String searchCriteria) {
+                    final String wrapSearchCriteria = "*" + searchCriteria + "*";
+                    return query()
+                            .searchScope(SearchScope.SUBTREE)
+                            .base(baseDirectorySearch)
+                            .where(LDAP_OBJECT_CATEGORY).is(PERSON_CRITERIA)
+                            .and(LDAP_OBJECT_CLASS).is(USER_CRITERIA)
+
+2
+Настройки подключения к серверам LDAP могут меняться в зависимости от инфрастуктуры
+    @Value("${app.connection.vtb.domain}")
+    private String VTB_DOMAIN;
+
+    @Value("${app.connection.region.domain}")
+    private String REGION_DOMAIN;
+
+3
+связывание по время исполнения программы на основе считанных ранее данных из конфигурационного файла
+        private final ConcurrentHashMap<String, Boolean> checkMap = new ConcurrentHashMap<>();
+
+        private void runOnAllDataSources() throws LiquibaseException {
+            fillChekMapByDefaultValues(checkMap);....
+
+        private void fillChekMapByDefaultValues(ConcurrentHashMap<String, Boolean> checkMap) {
+            dataSources.keySet().forEach(key -> checkMap.put(key, false));
+        }
