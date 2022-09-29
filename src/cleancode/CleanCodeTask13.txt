@@ -1,0 +1,91 @@
+1
+было
+        String[] authorityArr = authority.split(DELIMITER);
+
+        int indexDos = 0;
+        for (int i = 0; i < authorityArr.length; i++) {
+            if (Objects.equals(authorityArr[i], DOS)) {
+                indexDos = i;
+                break;
+            }
+        }
+стало
+        List<String> authorityArr = Arrays.stream(authority.split(DELIMITER)).collect(Collectors.toList())
+
+        int indexDos = 0;
+        for (String part:authorityArr) {
+            if(part.equalsIgnoreCase(DOS)){
+                indexDos++;
+                break;
+            }
+            indexDos++;
+        }
+
+
+2
+было
+public static List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> resMap = new HashMap<>();
+        for (int i = 0; i < strs.length; i++) {
+            char[] chars = strs[i].toCharArray();
+            Arrays.sort(chars);
+            String key = String.valueOf(chars);
+            if(resMap.containsKey(key)){
+                resMap.get(key).add(strs[i]);
+            } else {
+                ArrayList<String> list = new ArrayList<>();
+                list.add(strs[i]);
+                resMap.put(key, list);
+            }
+        }
+       return resMap.entrySet().stream().map(integerListEntry -> integerListEntry.getValue()).collect(Collectors.toList());
+    }
+стало
+    public static List<List<String>> groupAnagrams2(String[] strs) {
+            Map<String, List<String>> resMap = new HashMap<>();
+            for (String str:strs) {
+                char[] chars = str.toCharArray();
+                Arrays.sort(chars);
+                String key = String.valueOf(chars);
+                if(resMap.containsKey(key)){
+                    resMap.get(key).add(str);
+                } else {
+                    ArrayList<String> list = new ArrayList<>();
+                    list.add(str);
+                    resMap.put(key, list);
+                }
+            }
+            return resMap.entrySet().stream().map(integerListEntry -> integerListEntry.getValue()).collect(Collectors.toList());
+        }
+
+3
+было
+    public static int singleNumber(int[] nums) {
+        if(nums.length==1){
+            return nums[0];
+        }
+       HashMap<Integer, Integer> map = new HashMap<>();
+       int possibleRes = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if(!map.containsKey(nums[i])){
+               map.put(nums[i],1);
+               possibleRes += nums[i];
+            } else {
+                possibleRes -= nums[i];
+            }
+        }
+
+        return -1 * possibleRes;
+    }
+ стало
+        public static int singleNumber(int[] nums) {
+            if(nums.length==1){
+                return nums[0];
+            }
+            int possibleRes = 0;
+            for (int i = 0; i < nums.length; i++) {
+                possibleRes = possibleRes + i%2==0 ? nums[i] : -nums[i];
+            }
+            return -1 * possibleRes;
+        }
+
