@@ -1,0 +1,87 @@
+
+ //метод был написан для однократного применения. Подписывает пользователей на компоненты которые они создали, до появления мехнизма подписки
+ public List<UserSubscribedComponentsRs> subscribeAllUserOnTheirCreatedComponents(String authorization) {
+            Map<String, Set<Integer>> mapForNewSubscribe = new HashMap<>();
+
+            List<UsersLoginWithIdDTO> usersLoginWithIdDTOS = devportalAuthClient.usersLoginWithId(authorization);
+            Map<String, String> userIdToUserLoginMap = usersLoginWithIdDTOS.stream().collect(Collectors.toMap(UsersLoginWithIdDTO::getUserId, UsersLoginWithIdDTO::getUserLogin));
+            Map<String, List<String>> userLoginToUserIdMap = usersLoginWithIdDTOS.stream()
+                    .collect(groupingBy(UsersLoginWithIdDTO::getUserLogin,
+                            Collectors.mapping(UsersLoginWithIdDTO::getUserId, Collectors.toList())));
+
+            List<String> userIdsList = new ArrayList<>(userIdToUserLoginMap.keySet());
+            List<String> userLoginsList = userLoginToUserIdMap.values().stream().flatMap(List::stream).collect(Collectors.toList());
+
+2 //получем все существущие компоненты и создаем карту ID - Component
+            Map<String, Component> componentByIdMap = componentService.findComponentByMaintainerIdOrCreatorId(userIdsList, userLoginsList, ComponentState.ACTIVE)
+                    .stream().collect(Collectors.toMap(component -> String.valueOf(component.getId()), Function.identity()));
+
+3 //получаем все подписки
+            final List<SubscriptionByComponentIdRs> allSubscriptions = notificationService.getAllSubscriptions(authorization);
+            for (int i = 0; i < allSubscriptions.size(); i++) {
+            //для каждой подписки получаем список логинов подписанных пользователей
+                List<String> usersIdByUserLoginFromComponentSubscription =
+                        allSubscriptions.get(i).getUserLogins().stream()
+                                .filter(e -> !isNumeric(e) && userLoginToUserIdMap.get(e) != null)
+                                .map(userLoginToUserIdMap::get)
+                                .flatMap(List::stream)
+                                .collect(Collectors.toList());
+                String componentId = allSubscriptions.get(i).getComponentId();
+                if (isNumeric(componentId)) {
+                    Component component = componentByIdMap.get(componentId);
+                    if (component != null) {
+4                       // если создатель компонента не пустой и если карта айди пользователей - логин пользователя в подписках на кмопненты  не содержит айди создателя компонента
+                        if (component.getCreatorId() != null && !usersIdByUserLoginFromComponentSubscription.contains(component.getCreatorId())) {
+                            final String userLogin = userIdToUserLoginMap.get(component.getCreatorId());
+                            addingComponentForSubscribe(mapForNewSubscribe, componentId, userLogin);
+                        }
+5                        //если владелец компонента не пуст или в списках логинвов пользователей подписанных на компонент не содержится логин пользователя
+                        if (component.getMaintainerId() != null && !allSubscriptions.get(i).getUserLogins().contains(component.getMaintainerId().toLowerCase(Locale.ROOT))) {
+                            final String userLogin = component.getMaintainerId();
+                            addingComponentForSubscribe(mapForNewSubscribe, componentId, userLogin);
+                        }
+6                       //удаляем из списка компонентов на которые необходимо подписать пользователей
+                        componentByIdMap.remove(componentId);
+                    }
+                }
+            }
+7            //если список еще не пуст добавляем пользовтелям которые его создали или/и являются влдельцами в подписку данный компонент
+            if (!componentByIdMap.isEmpty()) {
+                List<Component> componentsWithoutSubscriber = new ArrayList<>(componentByIdMap.values());
+                for (int i = 0; i < componentsWithoutSubscriber.size(); i++) {
+                    String componentId = String.valueOf(componentsWithoutSubscriber.get(i).getId());
+                    String userLoginAsCreator = userIdToUserLoginMap.get(componentsWithoutSubscriber.get(i).getCreatorId());
+                    String userLoginAsMaintainer = componentsWithoutSubscriber.get(i).getMaintainerId();
+                    if (userLoginAsCreator.equalsIgnoreCase(userLoginAsMaintainer)) {
+                        if (mapForNewSubscribe.get(userLoginAsCreator.toLowerCase(Locale.ROOT)) == null && mapForNewSubscribe.get(userLoginAsMaintainer.toLowerCase(Locale.ROOT)) == null) {
+                            addingComponentForSubscribe(mapForNewSubscribe, componentId, userLoginAsCreator.toLowerCase(Locale.ROOT));
+                            continue;
+                        }
+                        mapForNewSubscribe.get(userLoginAsCreator.toLowerCase(Locale.ROOT)).add(componentsWithoutSubscriber.get(i).getId());
+                        continue;
+                    }
+                    checkAndAddingNewSubscriberForCreatorOrMaintainer(mapForNewSubscribe, componentsWithoutSubscriber, componentId, userLoginAsCreator);
+                    checkAndAddingNewSubscriberForCreatorOrMaintainer(mapForNewSubscribe, componentsWithoutSubscriber, componentId, userLoginAsMaintainer);
+                }
+            }
+            List<UserSubscribedComponentsRs> userSubscribedComponentsRs = new ArrayList<>();
+            if (!mapForNewSubscribe.isEmpty()) {
+                Set<String> users = mapForNewSubscribe.keySet();
+                for (String user : users) {
+                    log.info("Для пользователя с логином :{} отправлен запрос на подписку для следующих компонентов :{}", user, mapForNewSubscribe.get(user));
+
+                    userSubscribedComponentsRs.addAll(notificationService.subscribeUserToComponents(authorization, user, new ArrayList<>(mapForNewSubscribe.get(user)))
+                            .getUserSubscribedComponentsRs());
+                }
+            }
+            return userSubscribedComponentsRs;
+        }
+
+8        //Создание запроса к LDAP используя именование существующей на сервисе схемы
+             private LdapQuery createLdapQuery(String baseDirectorySearch, String searchCriteria) {
+                     final String wrapSearchCriteria = "*" + searchCriteria + "*";
+                     return query()
+                             .searchScope(SearchScope.SUBTREE)
+                             .base(baseDirectorySearch)
+                             .where(LDAP_OBJECT_CATEGORY).is(PERSON_CRITERIA)
+                             .and(LDAP_OBJECT_CLASS).is(USER_CRITERIA)
