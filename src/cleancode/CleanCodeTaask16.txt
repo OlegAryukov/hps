@@ -1,0 +1,48 @@
+1
+    @Override
+    public boolean deleteRepository(String repositorySlug) {
+        log.info("Репозиторий {} удален.", repositorySlug);
+        //todo not implemented
+        return true;
+    }
+    //TODO не имплиментирован из-за отстутствия точной логики удаления репозитория
+
+2
+        when(messageProducer.sendCreateServiceMessage(any())).thenReturn(future);
+//        doNothing().when(componentsValidator).isValidCreateServiceRequest(any(), any());
+
+    исправление - строчка удалена
+
+3
+    private final Map<String, GitLibraryVariable> placeholders; //todo переименовать в libraries после изменений на фронте
+
+    перенесено над переменной
+
+4
+    @Test
+    void createTempFolder() {
+        //TODO написать после решения с static mock
+    }
+
+    @Test
+    void testCreateTempFolder() {
+        //TODO написать после решения с static mock
+    }
+
+    TODO пренесен в заголовок теста с добавление информации о небоходимости применения данногоп подхода ко всем тестам
+
+5
+    //TODO cors policy should be reconsidered for prod
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .anyRequest().permitAll()
+                .and().cors()
+                .and()
+                .csrf().disable();
+    }
+
+    удалено т.к. класс не обозначен для запуска каким либо профилем
+
+    более комментариев найти не удалось
