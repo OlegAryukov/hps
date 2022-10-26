@@ -18,12 +18,12 @@ public class FindSecondMaxNumber {
 
     private Integer recurFindSecondNum(List<Integer> numbers, int firstMax, int secondMax, int i) {
         boolean endRecursionFlag = i == numbers.size() - 1;
-        if (numbers.get(i) == secondMax || numbers.get(i) == firstMax)
-            return endRecursionFlag ? secondMax : recurFindSecondNum(numbers, firstMax, secondMax, i + 1);
         if (numbers.get(i) > secondMax && numbers.get(i) < firstMax)
-            return endRecursionFlag ? numbers.get(i) : recurFindSecondNum(numbers, firstMax, numbers.get(i), i + 1);
-        if (numbers.get(i) > firstMax)
-            return endRecursionFlag ? firstMax : recurFindSecondNum(numbers, numbers.get(i), firstMax, i + 1);
+            secondMax = numbers.get(i);
+        if (numbers.get(i) > firstMax){
+            secondMax = firstMax;
+            firstMax = numbers.get(i);
+        }
         return endRecursionFlag ? secondMax : recurFindSecondNum(numbers, firstMax, secondMax, i + 1);
     }
 }
