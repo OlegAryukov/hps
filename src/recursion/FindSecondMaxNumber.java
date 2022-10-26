@@ -18,7 +18,7 @@ public class FindSecondMaxNumber {
 
     private Integer recurFindSecondNum(List<Integer> numbers, int firstMax, int secondMax, int i) {
         boolean endRecursionFlag = i == numbers.size() - 1;
-        if (numbers.get(i) > secondMax && numbers.get(i) < firstMax)
+        if (numbers.get(i) > secondMax && numbers.get(i) <= firstMax)
             secondMax = numbers.get(i);
         if (numbers.get(i) > firstMax){
             secondMax = firstMax;
