@@ -63,6 +63,8 @@ class SimpleTree<T> {
     public void MoveNode(SimpleTreeNode<T> OriginalNode, SimpleTreeNode<T> NewParent) {
         if (!this.Root.equals(OriginalNode)) {
             OriginalNode.Parent.Children.remove(OriginalNode);
+            if (OriginalNode.Parent.Children.isEmpty())
+                OriginalNode.Parent.Children = null;
             NewParent.Children.add(OriginalNode);
             OriginalNode.Parent = NewParent;
         }
