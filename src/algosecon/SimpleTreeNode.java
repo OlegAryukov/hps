@@ -65,8 +65,7 @@ class SimpleTree<T> {
             OriginalNode.Parent.Children.remove(OriginalNode);
             if (OriginalNode.Parent.Children.isEmpty())
                 OriginalNode.Parent.Children = null;
-            NewParent.Children.add(OriginalNode);
-            OriginalNode.Parent = NewParent;
+            AddChild(NewParent, OriginalNode);
         }
         // ваш код перемещения узла вместе с его поддеревом --
         // в качестве дочернего для узла NewParent
@@ -124,4 +123,3 @@ class SimpleTree<T> {
         return count;
     }
 }
-
