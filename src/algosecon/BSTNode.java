@@ -33,30 +33,30 @@ class BSTFind<T> {
 }
 
 class BST<T> {
-   algosecon.bst.BSTNode<T> Root; // корень дерева, или null
+   BSTNode<T> Root; // корень дерева, или null
 
-    public BST(algosecon.bst.BSTNode<T> node) {
+    public BST(BSTNode<T> node) {
         Root = node;
     }
 
-    public algosecon.bst.BSTFind<T> FindNodeByKey(int key) {
+    public BSTFind<T> FindNodeByKey(int key) {
         return findNodeByKey(Root, key);
     }
 
     public boolean AddKeyValue(int key, T val) {
         // добавляем ключ-значение в дерево
-        algosecon.bst.BSTFind<T> tbstFind = FindNodeByKey(key);
+        BSTFind<T> tbstFind = FindNodeByKey(key);
         if (tbstFind == null || tbstFind.NodeHasKey)
             return false;
         if (tbstFind.ToLeft) {
-            tbstFind.Node.LeftChild = new algosecon.bst.BSTNode<>(key, val, tbstFind.Node);
+            tbstFind.Node.LeftChild = new BSTNode<>(key, val, tbstFind.Node);
             return true;
         }
-        tbstFind.Node.RightChild = new algosecon.bst.BSTNode<>(key, val, tbstFind.Node);
+        tbstFind.Node.RightChild = new BSTNode<>(key, val, tbstFind.Node);
         return true; // если ключ уже есть
     }
 
-    public algosecon.bst.BSTNode<T> FinMinMax(algosecon.bst.BSTNode<T> FromNode, boolean FindMax) {
+    public BSTNode<T> FinMinMax(BSTNode<T> FromNode, boolean FindMax) {
         if (FindMax) {
             return FromNode.RightChild == null ? FromNode : FinMinMax(FromNode.RightChild, FindMax);
         }
@@ -64,7 +64,7 @@ class BST<T> {
     }
 
     public boolean DeleteNodeByKey(int key) {
-        algosecon.bst.BSTFind<T> nodeByKey = findNodeByKey(Root, key);
+        BSTFind<T> nodeByKey = findNodeByKey(Root, key);
         if (nodeByKey == null)
             return false; // если узел не найден
         if(nodeByKey.Node.RightChild == null && nodeByKey.Node.LeftChild == null){
@@ -76,7 +76,7 @@ class BST<T> {
             return true;
         }
         if (nodeByKey.Node.RightChild!=null){
-            algosecon.bst.BSTNode<T> leftMin = FinMinMax(nodeByKey.Node, false);
+            BSTNode<T> leftMin = FinMinMax(nodeByKey.Node, false);
             if(leftMin.RightChild != null){
                 if(nodeByKey.Node.Parent.NodeKey < key){
                     nodeByKey.Node.Parent.RightChild = leftMin;
@@ -104,18 +104,18 @@ class BST<T> {
         return getNodeCount(Root, 0); // количество узлов в дереве
     }
 
-    private algosecon.bst.BSTFind<T> findNodeByKey(algosecon.bst.BSTNode<T> node, int key) {
+    private BSTFind<T> findNodeByKey(BSTNode<T> node, int key) {
         if (node == null)
             return null;
         if (node.NodeKey == key) {
-            algosecon.bst.BSTFind<T> res = new algosecon.bst.BSTFind<>();
+            BSTFind<T> res = new BSTFind<>();
             res.Node = node;
             res.NodeHasKey = true;
             return res;
         }
         if (node.NodeKey < key) {
             if (node.RightChild == null) {
-                algosecon.bst.BSTFind<T> res = new algosecon.bst.BSTFind<>();
+                BSTFind<T> res = new BSTFind<>();
                 res.Node = node;
                 res.NodeHasKey = false;
                 res.ToLeft = false;
@@ -124,7 +124,7 @@ class BST<T> {
             return findNodeByKey(node.RightChild, key);
         }
         if (node.LeftChild == null) {
-            algosecon.bst.BSTFind<T> res = new algosecon.bst.BSTFind<>();
+            BSTFind<T> res = new BSTFind<>();
             res.Node = node;
             res.NodeHasKey = false;
             res.ToLeft = true;
@@ -133,7 +133,7 @@ class BST<T> {
         return findNodeByKey(node.LeftChild, key);
     }
 
-    private int getNodeCount(algosecon.bst.BSTNode<T> root, int count) {
+    private int getNodeCount(BSTNode<T> root, int count) {
         count += 1;
         if (root.LeftChild != null)
             count = getNodeCount(root.LeftChild, count);
