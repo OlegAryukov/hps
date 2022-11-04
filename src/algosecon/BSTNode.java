@@ -1,0 +1,146 @@
+package algosecon;
+
+public class BSTNode<T> {
+    public int NodeKey; // ключ узла
+    public T NodeValue; // значение в узле
+    public BSTNode<T> Parent; // родитель или null для корня
+    public BSTNode<T> LeftChild; // левый потомок
+    public BSTNode<T> RightChild; // правый потомок
+
+    public BSTNode(int key, T val, BSTNode<T> parent) {
+        NodeKey = key;
+        NodeValue = val;
+        Parent = parent;
+        LeftChild = null;
+        RightChild = null;
+    }
+}
+
+// промежуточный результат поиска
+class BSTFind<T> {
+    // null если в дереве вообще нету узлов
+    public BSTNode<T> Node;
+
+    // true если узел найден
+    public boolean NodeHasKey;
+
+    // true, если родительскому узлу надо добавить новый левым
+    public boolean ToLeft;
+
+    public BSTFind() {
+        Node = null;
+    }
+}
+
+class BST<T> {
+   algosecon.bst.BSTNode<T> Root; // корень дерева, или null
+
+    public BST(algosecon.bst.BSTNode<T> node) {
+        Root = node;
+    }
+
+    public algosecon.bst.BSTFind<T> FindNodeByKey(int key) {
+        return findNodeByKey(Root, key);
+    }
+
+    public boolean AddKeyValue(int key, T val) {
+        // добавляем ключ-значение в дерево
+        algosecon.bst.BSTFind<T> tbstFind = FindNodeByKey(key);
+        if (tbstFind == null || tbstFind.NodeHasKey)
+            return false;
+        if (tbstFind.ToLeft) {
+            tbstFind.Node.LeftChild = new algosecon.bst.BSTNode<>(key, val, tbstFind.Node);
+            return true;
+        }
+        tbstFind.Node.RightChild = new algosecon.bst.BSTNode<>(key, val, tbstFind.Node);
+        return true; // если ключ уже есть
+    }
+
+    public algosecon.bst.BSTNode<T> FinMinMax(algosecon.bst.BSTNode<T> FromNode, boolean FindMax) {
+        if (FindMax) {
+            return FromNode.RightChild == null ? FromNode : FinMinMax(FromNode.RightChild, FindMax);
+        }
+        return FromNode.LeftChild == null ? FromNode : FinMinMax(FromNode.LeftChild, FindMax);
+    }
+
+    public boolean DeleteNodeByKey(int key) {
+        algosecon.bst.BSTFind<T> nodeByKey = findNodeByKey(Root, key);
+        if (nodeByKey == null)
+            return false; // если узел не найден
+        if(nodeByKey.Node.RightChild == null && nodeByKey.Node.LeftChild == null){
+            if(nodeByKey.Node.Parent.NodeKey < key){
+                nodeByKey.Node.Parent.RightChild = null;
+                return true;
+            }
+            nodeByKey.Node.Parent.LeftChild = null;
+            return true;
+        }
+        if (nodeByKey.Node.RightChild!=null){
+            algosecon.bst.BSTNode<T> leftMin = FinMinMax(nodeByKey.Node, false);
+            if(leftMin.RightChild != null){
+                if(nodeByKey.Node.Parent.NodeKey < key){
+                    nodeByKey.Node.Parent.RightChild = leftMin;
+                    leftMin.Parent.RightChild = leftMin.RightChild;
+                    leftMin.RightChild.Parent = leftMin.Parent;
+                    leftMin.RightChild = null;
+                    return true;
+                }
+            }
+            leftMin.Parent = nodeByKey.Node.Parent;
+            nodeByKey.Node.Parent.RightChild = leftMin;
+            leftMin.RightChild = nodeByKey.Node.RightChild;
+            return true;
+        }
+        if(nodeByKey.Node.Parent.NodeKey < key) {
+            nodeByKey.Node.Parent.LeftChild = null;
+            return true;
+        }
+        nodeByKey.Node.Parent.RightChild = null;
+        return true;
+
+    }
+
+    public int Count() {
+        return getNodeCount(Root, 0); // количество узлов в дереве
+    }
+
+    private algosecon.bst.BSTFind<T> findNodeByKey(algosecon.bst.BSTNode<T> node, int key) {
+        if (node == null)
+            return null;
+        if (node.NodeKey == key) {
+            algosecon.bst.BSTFind<T> res = new algosecon.bst.BSTFind<>();
+            res.Node = node;
+            res.NodeHasKey = true;
+            return res;
+        }
+        if (node.NodeKey < key) {
+            if (node.RightChild == null) {
+                algosecon.bst.BSTFind<T> res = new algosecon.bst.BSTFind<>();
+                res.Node = node;
+                res.NodeHasKey = false;
+                res.ToLeft = false;
+                return res;
+            }
+            return findNodeByKey(node.RightChild, key);
+        }
+        if (node.LeftChild == null) {
+            algosecon.bst.BSTFind<T> res = new algosecon.bst.BSTFind<>();
+            res.Node = node;
+            res.NodeHasKey = false;
+            res.ToLeft = true;
+            return res;
+        }
+        return findNodeByKey(node.LeftChild, key);
+    }
+
+    private int getNodeCount(algosecon.bst.BSTNode<T> root, int count) {
+        count += 1;
+        if (root.LeftChild != null)
+            count = getNodeCount(root.LeftChild, count);
+        if (root.RightChild != null)
+            count = getNodeCount(root.RightChild, count);
+        return count;
+    }
+
+}
+
