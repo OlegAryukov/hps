@@ -1,6 +1,6 @@
 package algosecon;
 
-public class BSTNode<T> {
+class BSTNode<T> {
     public int NodeKey; // ключ узла
     public T NodeValue; // значение в узле
     public BSTNode<T> Parent; // родитель или null для корня
