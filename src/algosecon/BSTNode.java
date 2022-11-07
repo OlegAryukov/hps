@@ -76,13 +76,13 @@ class BST<T> {
             return true;
         }
         if (nodeByKey.Node.RightChild!=null){
-            BSTNode<T> leftMin = FinMinMax(nodeByKey.Node, false);
-            if(leftMin.RightChild != null){
+            BSTNode<T> leftMin = FinMinMax(nodeByKey.Node.RightChild, false);
+            if(leftMin != null){
                 if(nodeByKey.Node.Parent.NodeKey < key){
                     nodeByKey.Node.Parent.RightChild = leftMin;
-                    leftMin.Parent.RightChild = leftMin.RightChild;
-                    leftMin.RightChild.Parent = leftMin.Parent;
-                    leftMin.RightChild = null;
+                    leftMin.Parent = nodeByKey.Node.Parent;
+                    leftMin.LeftChild = nodeByKey.Node.LeftChild;
+                    nodeByKey.Node.LeftChild.Parent = leftMin;
                     return true;
                 }
             }
