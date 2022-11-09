@@ -99,17 +99,24 @@ public class BSTTreeTest {
         Assert.assertEquals(null, testTree.FindNodeByKey(2).Node.LeftChild);
         Assert.assertFalse(testTree.FindNodeByKey(1).NodeHasKey);
         Assert.assertTrue(testTree.FindNodeByKey(1).ToLeft);
+        Assert.assertEquals(14, testTree.Count());
+
+        testTree.DeleteNodeByKey(4);
+//        Assert.assertEquals();
 
         testTree.DeleteNodeByKey(6);
-        Assert.assertEquals(5, testTree.FindNodeByKey(7).Node.LeftChild.NodeKey);
+        Assert.assertEquals(null, testTree.FindNodeByKey(7).Node.LeftChild);
+        Assert.assertEquals(12, testTree.Count());
 
 
         testTree.DeleteNodeByKey(5);
-        Assert.assertEquals(7, testTree.FindNodeByKey(4).Node.RightChild.NodeKey);
-        Assert.assertEquals(null, testTree.FindNodeByKey(7).Node.LeftChild);
+        Assert.assertEquals(7, testTree.FindNodeByKey(8).Node.LeftChild.NodeKey);
+        Assert.assertEquals(2, testTree.FindNodeByKey(7).Node.LeftChild.NodeKey);
         Assert.assertEquals(null, testTree.FindNodeByKey(7).Node.RightChild);
+        Assert.assertEquals(11,testTree.Count());
 
         testTree.DeleteNodeByKey(15);
         testTree.DeleteNodeByKey(13);
+        Assert.assertEquals(9, testTree.Count());
     }
 }
