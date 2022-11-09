@@ -77,19 +77,26 @@ class BST<T> {
         }
         if (nodeByKey.Node.RightChild!=null){
             BSTNode<T> leftMin = FinMinMax(nodeByKey.Node.RightChild, false);
-            if(leftMin != null){
-                if(nodeByKey.Node.Parent.NodeKey < key){
-                    nodeByKey.Node.Parent.RightChild = leftMin;
-                    leftMin.Parent = nodeByKey.Node.Parent;
-                    leftMin.LeftChild = nodeByKey.Node.LeftChild;
-                    nodeByKey.Node.LeftChild.Parent = leftMin;
-                    return true;
+            if (leftMin != null) {
+                if (leftMin.Parent.NodeKey > leftMin.NodeKey) {
+                    leftMin.Parent.LeftChild = null;
+                } else {
+                    leftMin.Parent.RightChild = null;
                 }
+                if (nodeByKey.Node.Parent.NodeKey < key) {
+                    nodeByKey.Node.Parent.RightChild = leftMin;
+                } else {
+                    nodeByKey.Node.Parent.LeftChild = leftMin;
+                }
+                leftMin.Parent = nodeByKey.Node.Parent;
+                leftMin.LeftChild = nodeByKey.Node.LeftChild;
+                if (nodeByKey.Node.LeftChild != null)
+                    nodeByKey.Node.LeftChild.Parent = leftMin;
+                leftMin.RightChild = nodeByKey.Node.RightChild;
+                if (nodeByKey.Node.RightChild != null)
+                    nodeByKey.Node.RightChild.Parent = leftMin;
+                return true;
             }
-            leftMin.Parent = nodeByKey.Node.Parent;
-            nodeByKey.Node.Parent.RightChild = leftMin;
-            leftMin.RightChild = nodeByKey.Node.RightChild;
-            return true;
         }
         if(nodeByKey.Node.Parent.NodeKey < key) {
             nodeByKey.Node.Parent.LeftChild = null;
