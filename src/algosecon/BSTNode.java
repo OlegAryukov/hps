@@ -65,10 +65,14 @@ class BST<T> {
 
     public boolean DeleteNodeByKey(int key) {
         BSTFind<T> nodeByKey = findNodeByKey(Root, key);
-        if (nodeByKey == null)
+        if (nodeByKey.Node == null)
             return false; // если узел не найден
-        if(nodeByKey.Node.RightChild == null && nodeByKey.Node.LeftChild == null){
-            if(nodeByKey.Node.Parent.NodeKey < key){
+        if (nodeByKey.Node.RightChild == null && nodeByKey.Node.LeftChild == null) {
+            if(nodeByKey.Node.equals(Root)){
+                Root = null;
+                return true;
+            }
+            if (nodeByKey.Node.Parent.NodeKey < key) {
                 nodeByKey.Node.Parent.RightChild = null;
                 return true;
             }
@@ -113,7 +117,7 @@ class BST<T> {
 
     private BSTFind<T> findNodeByKey(BSTNode<T> node, int key) {
         if (node == null)
-            return null;
+            return new BSTFind<>();
         if (node.NodeKey == key) {
             BSTFind<T> res = new BSTFind<>();
             res.Node = node;
