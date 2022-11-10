@@ -44,6 +44,10 @@ class BST<T> {
     }
 
     public boolean AddKeyValue(int key, T val) {
+        if(Root == null){
+            Root = new BSTNode<>(key, val, null);
+            return true;
+        }
         // добавляем ключ-значение в дерево
         BSTFind<T> tbstFind = FindNodeByKey(key);
         if (tbstFind == null || tbstFind.NodeHasKey)
