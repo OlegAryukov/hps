@@ -112,7 +112,7 @@ class BST<T> {
     }
 
     public int Count() {
-        return getNodeCount(Root, 0); // количество узлов в дереве
+        return Root == null ? 0 : getNodeCount(Root, 0); // количество узлов в дереве
     }
 
     private BSTFind<T> findNodeByKey(BSTNode<T> node, int key) {
