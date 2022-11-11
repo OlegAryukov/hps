@@ -11,10 +11,10 @@ import java.util.Optional;
 public class BSTTreeTest {
 
     @Test
-    public void findAllNodeByValues(){
-       BST<Integer> testTree = new BST<>(new BSTNode<>(8, 8,null));
-        testTree.AddKeyValue(4,4);
-        testTree.AddKeyValue(2,2);
+    public void findAllNodeByValues() {
+        BST<Integer> testTree = new BST<>(new BSTNode<>(8, 8, null));
+        testTree.AddKeyValue(4, 4);
+        testTree.AddKeyValue(2, 2);
         testTree.AddKeyValue(3, 3);
         testTree.AddKeyValue(1, 1);
         testTree.AddKeyValue(6, 6);
@@ -35,10 +35,18 @@ public class BSTTreeTest {
     }
 
     @Test
-    public void findAllMinMax(){
-        BST<Integer> testTree = new BST<>(new BSTNode<>(8, 8,null));
-        testTree.AddKeyValue(4,4);
-        testTree.AddKeyValue(2,2);
+    public void addKeyValueEmpty() {
+        BST<Integer> testTree = new BST<>(null);
+        testTree.AddKeyValue(8,8);
+        Assert.assertEquals(1, testTree.Count());
+        Assert.assertEquals(Optional.of(8).get(), testTree.FindNodeByKey(8).Node.NodeValue);
+    }
+
+    @Test
+    public void findAllMinMax() {
+        BST<Integer> testTree = new BST<>(new BSTNode<>(8, 8, null));
+        testTree.AddKeyValue(4, 4);
+        testTree.AddKeyValue(2, 2);
         testTree.AddKeyValue(3, 3);
         testTree.AddKeyValue(1, 1);
         testTree.AddKeyValue(6, 6);
@@ -57,10 +65,10 @@ public class BSTTreeTest {
     }
 
     @Test
-    public void nodeCountTest(){
-        BST<Integer> testTree = new BST<>(new BSTNode<>(8, 8,null));
-        testTree.AddKeyValue(4,4);
-        testTree.AddKeyValue(2,2);
+    public void nodeCountTest() {
+        BST<Integer> testTree = new BST<>(new BSTNode<>(8, 8, null));
+        testTree.AddKeyValue(4, 4);
+        testTree.AddKeyValue(2, 2);
         testTree.AddKeyValue(3, 3);
         testTree.AddKeyValue(1, 1);
         testTree.AddKeyValue(6, 6);
@@ -78,10 +86,10 @@ public class BSTTreeTest {
     }
 
     @Test
-    public void deleteTest(){
-        BST<Integer> testTree = new BST<>(new BSTNode<>(8, 8,null));
-        testTree.AddKeyValue(4,4);
-        testTree.AddKeyValue(2,2);
+    public void deleteTest() {
+        BST<Integer> testTree = new BST<>(new BSTNode<>(8, 8, null));
+        testTree.AddKeyValue(4, 4);
+        testTree.AddKeyValue(2, 2);
         testTree.AddKeyValue(3, 3);
         testTree.AddKeyValue(1, 1);
         testTree.AddKeyValue(6, 6);
@@ -102,7 +110,6 @@ public class BSTTreeTest {
         Assert.assertEquals(14, testTree.Count());
 
         testTree.DeleteNodeByKey(4);
-//        Assert.assertEquals();
 
         testTree.DeleteNodeByKey(6);
         Assert.assertEquals(null, testTree.FindNodeByKey(7).Node.LeftChild);
@@ -113,10 +120,25 @@ public class BSTTreeTest {
         Assert.assertEquals(7, testTree.FindNodeByKey(8).Node.LeftChild.NodeKey);
         Assert.assertEquals(2, testTree.FindNodeByKey(7).Node.LeftChild.NodeKey);
         Assert.assertEquals(null, testTree.FindNodeByKey(7).Node.RightChild);
-        Assert.assertEquals(11,testTree.Count());
+        Assert.assertEquals(11, testTree.Count());
 
         testTree.DeleteNodeByKey(15);
         testTree.DeleteNodeByKey(13);
         Assert.assertEquals(9, testTree.Count());
+
+    }
+
+    @Test
+    public void deleteOneNodeTest() {
+        BST<Integer> testTree = new BST<>(new BSTNode<>(8, 8, null));
+        testTree.AddKeyValue(4, 4);
+        Assert.assertEquals(2, testTree.Count());
+
+        testTree.DeleteNodeByKey(4);
+        Assert.assertEquals(1, testTree.Count());
+        Assert.assertEquals(Optional.of(8).get(), testTree.FindNodeByKey(4).Node.NodeValue);
+
+        testTree.DeleteNodeByKey(8);
+
     }
 }
