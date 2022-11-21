@@ -1,5 +1,7 @@
 package algosecon;
 
+import java.util.ArrayList;
+
 class BSTNode<T> {
     public int NodeKey; // ключ узла
     public T NodeValue; // значение в узле
@@ -117,6 +119,73 @@ class BST<T> {
 
     public int Count() {
         return Root == null ? 0 : getNodeCount(Root, 0); // количество узлов в дереве
+    }
+
+    public ArrayList<BSTNode<T>> WideAllNodes() {
+        ArrayList<BSTNode<T>> res = new ArrayList<>();
+        ArrayList<BSTNode<T>> levelNodes = new ArrayList<>();
+        if (Root == null)
+            return res;
+        res.add(Root);
+        if (Root.LeftChild != null)
+            levelNodes.add(Root.LeftChild);
+        if (Root.RightChild != null)
+            levelNodes.add(Root.RightChild);
+        return wideSearch(res, levelNodes);
+
+    }
+
+    public ArrayList<BSTNode<T>> DeepAllNodes(int order) {
+        ArrayList<BSTNode<T>> result = new ArrayList<>();
+        if (order == 0) {
+            return inOrderTraversal(result, this.Root);
+        }
+        if (order == 1) {
+            return postOrderTraversal(result, this.Root);
+        }
+        return preOrderTraversal(result, this.Root);
+
+    }
+
+    private ArrayList<BSTNode<T>> preOrderTraversal(ArrayList<BSTNode<T>> result, BSTNode<T> node) {
+        if(node == null)
+            return result;
+        result.add(node);
+        preOrderTraversal(result, node.LeftChild);
+        return preOrderTraversal(result, node.RightChild);
+    }
+
+    private ArrayList<BSTNode<T>> postOrderTraversal(ArrayList<BSTNode<T>> result, BSTNode<T> node) {
+        if(node == null)
+            return result;
+        postOrderTraversal(result, node.LeftChild);
+        postOrderTraversal(result, node.RightChild);
+        result.add(node);
+        return result;
+    }
+
+    private ArrayList<BSTNode<T>> inOrderTraversal(ArrayList<BSTNode<T>> result, BSTNode<T> node) {
+        if(node == null)
+            return result;
+        inOrderTraversal(result, node.LeftChild);
+        result.add(node);
+        inOrderTraversal(result, node.RightChild);
+        return result;
+    }
+
+    private ArrayList<BSTNode<T>> wideSearch(ArrayList<BSTNode<T>> result, ArrayList<BSTNode<T>> allLevelNodes) {
+        if (allLevelNodes.isEmpty())
+            return result;
+        result.addAll(allLevelNodes);
+        ArrayList<BSTNode<T>> copyAllLevelNodes = new ArrayList<>(allLevelNodes);
+        allLevelNodes.clear();
+        for (BSTNode<T> node : copyAllLevelNodes) {
+            if (node.LeftChild != null)
+                allLevelNodes.add(node.LeftChild);
+            if (node.RightChild != null)
+                allLevelNodes.add(node.RightChild);
+        }
+        return wideSearch(result, allLevelNodes);
     }
 
     private BSTFind<T> findNodeByKey(BSTNode<T> node, int key) {
