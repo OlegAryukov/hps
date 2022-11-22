@@ -35,7 +35,7 @@ class BSTFind<T> {
 }
 
 class BST<T> {
-   BSTNode<T> Root; // корень дерева, или null
+    BSTNode<T> Root; // корень дерева, или null
 
     public BST(BSTNode<T> node) {
         Root = node;
@@ -121,8 +121,8 @@ class BST<T> {
         return Root == null ? 0 : getNodeCount(Root, 0); // количество узлов в дереве
     }
 
-    public ArrayList<BSTNode<T>> WideAllNodes() {
-        ArrayList<BSTNode<T>> res = new ArrayList<>();
+    public ArrayList<BSTNode> WideAllNodes() {
+        ArrayList<BSTNode> res = new ArrayList<>();
         ArrayList<BSTNode<T>> levelNodes = new ArrayList<>();
         if (Root == null)
             return res;
@@ -135,8 +135,8 @@ class BST<T> {
 
     }
 
-    public ArrayList<BSTNode<T>> DeepAllNodes() {
-        ArrayList<BSTNode<T>> result = new ArrayList<>();
+    public ArrayList<BSTNode> DeepAllNodes() {
+        ArrayList<BSTNode> result = new ArrayList<>();
         if (this.Root.NodeKey == 0) {
             return inOrderTraversal(result, this.Root);
         }
@@ -147,7 +147,7 @@ class BST<T> {
 
     }
 
-    private ArrayList<BSTNode<T>> preOrderTraversal(ArrayList<BSTNode<T>> result, BSTNode<T> node) {
+    private ArrayList<BSTNode> preOrderTraversal(ArrayList<BSTNode> result, BSTNode<T> node) {
         if(node == null)
             return result;
         result.add(node);
@@ -155,7 +155,7 @@ class BST<T> {
         return preOrderTraversal(result, node.RightChild);
     }
 
-    private ArrayList<BSTNode<T>> postOrderTraversal(ArrayList<BSTNode<T>> result, BSTNode<T> node) {
+    private ArrayList<BSTNode> postOrderTraversal(ArrayList<BSTNode> result, BSTNode<T> node) {
         if(node == null)
             return result;
         postOrderTraversal(result, node.LeftChild);
@@ -164,7 +164,7 @@ class BST<T> {
         return result;
     }
 
-    private ArrayList<BSTNode<T>> inOrderTraversal(ArrayList<BSTNode<T>> result, BSTNode<T> node) {
+    private ArrayList<BSTNode> inOrderTraversal(ArrayList<BSTNode> result, BSTNode<T> node) {
         if(node == null)
             return result;
         inOrderTraversal(result, node.LeftChild);
@@ -173,7 +173,7 @@ class BST<T> {
         return result;
     }
 
-    private ArrayList<BSTNode<T>> wideSearch(ArrayList<BSTNode<T>> result, ArrayList<BSTNode<T>> allLevelNodes) {
+    private ArrayList<BSTNode> wideSearch(ArrayList<BSTNode> result, ArrayList<BSTNode<T>> allLevelNodes) {
         if (allLevelNodes.isEmpty())
             return result;
         result.addAll(allLevelNodes);
