@@ -135,12 +135,12 @@ class BST<T> {
 
     }
 
-    public ArrayList<BSTNode> DeepAllNodes() {
+    public ArrayList<BSTNode> DeepAllNodes(int order) {
         ArrayList<BSTNode> result = new ArrayList<>();
-        if (this.Root.NodeKey == 0) {
+        if (order == 0) {
             return inOrderTraversal(result, this.Root);
         }
-        if (this.Root.NodeKey == 1) {
+        if (order == 1) {
             return postOrderTraversal(result, this.Root);
         }
         return preOrderTraversal(result, this.Root);
