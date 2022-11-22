@@ -123,7 +123,7 @@ class BST<T> {
 
     public ArrayList<BSTNode> WideAllNodes() {
         ArrayList<BSTNode> res = new ArrayList<>();
-        ArrayList<BSTNode<T>> levelNodes = new ArrayList<>();
+        ArrayList<BSTNode> levelNodes = new ArrayList<>();
         if (Root == null)
             return res;
         res.add(Root);
@@ -147,7 +147,7 @@ class BST<T> {
 
     }
 
-    private ArrayList<BSTNode> preOrderTraversal(ArrayList<BSTNode> result, BSTNode<T> node) {
+    private ArrayList<BSTNode> preOrderTraversal(ArrayList<BSTNode> result, BSTNode node) {
         if(node == null)
             return result;
         result.add(node);
@@ -155,7 +155,7 @@ class BST<T> {
         return preOrderTraversal(result, node.RightChild);
     }
 
-    private ArrayList<BSTNode> postOrderTraversal(ArrayList<BSTNode> result, BSTNode<T> node) {
+    private ArrayList<BSTNode> postOrderTraversal(ArrayList<BSTNode> result, BSTNode node) {
         if(node == null)
             return result;
         postOrderTraversal(result, node.LeftChild);
@@ -164,7 +164,7 @@ class BST<T> {
         return result;
     }
 
-    private ArrayList<BSTNode> inOrderTraversal(ArrayList<BSTNode> result, BSTNode<T> node) {
+    private ArrayList<BSTNode> inOrderTraversal(ArrayList<BSTNode> result, BSTNode node) {
         if(node == null)
             return result;
         inOrderTraversal(result, node.LeftChild);
@@ -173,13 +173,13 @@ class BST<T> {
         return result;
     }
 
-    private ArrayList<BSTNode> wideSearch(ArrayList<BSTNode> result, ArrayList<BSTNode<T>> allLevelNodes) {
+    private ArrayList<BSTNode> wideSearch(ArrayList<BSTNode> result, ArrayList<BSTNode> allLevelNodes) {
         if (allLevelNodes.isEmpty())
             return result;
         result.addAll(allLevelNodes);
-        ArrayList<BSTNode<T>> copyAllLevelNodes = new ArrayList<>(allLevelNodes);
+        ArrayList<BSTNode> copyAllLevelNodes = new ArrayList<>(allLevelNodes);
         allLevelNodes.clear();
-        for (BSTNode<T> node : copyAllLevelNodes) {
+        for (BSTNode node : copyAllLevelNodes) {
             if (node.LeftChild != null)
                 allLevelNodes.add(node.LeftChild);
             if (node.RightChild != null)
