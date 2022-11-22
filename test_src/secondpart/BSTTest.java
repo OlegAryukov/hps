@@ -158,7 +158,7 @@ public class BSTTest {
         testTree.AddKeyValue(15, 15);
 
 
-        ArrayList<BSTNode<Integer>> bstNodes = testTree.WideAllNodes();
+        ArrayList<BSTNode> bstNodes = testTree.WideAllNodes();
         Assert.assertEquals(15, bstNodes.size());
         Assert.assertEquals(8, bstNodes.get(0).NodeKey);
         Assert.assertEquals(4, bstNodes.get(1).NodeKey);
@@ -189,7 +189,7 @@ public class BSTTest {
         testTree.AddKeyValue(15, 15);
 
 
-        ArrayList<BSTNode<Integer>> bstNodesInOrder = testTree.DeepAllNodes();
+        ArrayList<BSTNode> bstNodesInOrder = testTree.DeepAllNodes();
         Assert.assertEquals(15, bstNodesInOrder.size());
 //        Assert.assertEquals(8, bstNodesInOrder.get(0).NodeKey);
 //        Assert.assertEquals(4, bstNodesInOrder.get(1).NodeKey);
@@ -221,7 +221,7 @@ public class BSTTest {
         testTree.AddKeyValue(15, 15);
 
 
-        ArrayList<BSTNode<Integer>> bstNodesInOrder = testTree.DeepAllNodes();
+        ArrayList<BSTNode> bstNodesInOrder = testTree.DeepAllNodes();
         Assert.assertEquals(15, bstNodesInOrder.size());
 //        Assert.assertEquals(8, bstNodesInOrder.get(0).NodeKey);
 //        Assert.assertEquals(4, bstNodesInOrder.get(1).NodeKey);
@@ -251,7 +251,7 @@ public class BSTTest {
         testTree.AddKeyValue(13, 13);
         testTree.AddKeyValue(15, 15);
 
-        ArrayList<BSTNode<Integer>> bstNodesPostOrder = testTree.DeepAllNodes();
+        ArrayList<BSTNode> bstNodesPostOrder = testTree.DeepAllNodes();
         Assert.assertEquals(15, bstNodesPostOrder.size());
 
     }
