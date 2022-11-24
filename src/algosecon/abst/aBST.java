@@ -13,9 +13,9 @@ class aBST {
     public Integer FindKeyIndex(int key) {
         if (Tree[0] == null)
             return null;
-        int res = findSlotRec(key, 0);
+        Integer res = findSlotRec(key, 0);
         // ищем в массиве индекс ключа
-        return res == 0 ? null : res; // не найден
+        return res; // не найден
     }
 
     public int AddKey(int key) {
@@ -25,8 +25,10 @@ class aBST {
         }
         Integer keyIndex = FindKeyIndex(key);
         // добавляем ключ в массив
-        if (keyIndex == null || keyIndex == 0)
+        if (keyIndex == null)
             return -1;
+        if (keyIndex == 0)
+            return Tree[0] == null ? -1 : 0;
         if (keyIndex < 0) {
             Tree[-keyIndex] = key;
             return -keyIndex;
@@ -36,7 +38,7 @@ class aBST {
         // индекс добавленного/существующего ключа или -1 если не удалось
     }
 
-    private int findSlotRec(int key, int currIndex) {
+    private Integer findSlotRec(int key, int currIndex) {
         if (Tree[currIndex] == null)
             return -currIndex;
         if (Tree[currIndex] == key)
@@ -45,6 +47,6 @@ class aBST {
         if (nextIndex <= Tree.length) {
             return findSlotRec(key, nextIndex);
         }
-        return 0;
+        return null;
     }
 }
