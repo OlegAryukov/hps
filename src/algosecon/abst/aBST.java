@@ -29,7 +29,7 @@ class aBST {
             return -1;
         if (keyIndex < 0) {
             Tree[-keyIndex] = key;
-            return keyIndex;
+            return -keyIndex;
         }
         return keyIndex;
 //        return keyIndex == null ? -1 : Math.abs(keyIndex);
