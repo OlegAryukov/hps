@@ -1,20 +1,22 @@
 package algosecon.push;
 
+import java.util.Arrays;
+
 class BSTNode {
     public int NodeKey; // ключ узла
     public BSTNode Parent; // родитель или null для корня
     public BSTNode LeftChild; // левый потомок
     public BSTNode RightChild; // правый потомок
-    public int     Level; // глубина узла
+    public int Level; // глубина узла
 
-    public BSTNode(int key, BSTNode parent)
-    {
+    public BSTNode(int key, BSTNode parent) {
         NodeKey = key;
         Parent = parent;
         LeftChild = null;
         RightChild = null;
     }
 }
+
 class BalancedBST {
     public BSTNode Root; // корень дерева
 
@@ -25,6 +27,7 @@ class BalancedBST {
     public void GenerateTree(int[] a) {
         // создаём дерево с нуля из неотсортированного массива a
         // ...
+        Arrays.sort(a);
         this.Root = makeBalancedTree(a, 0, a.length - 1, 0, null);
     }
 
@@ -47,10 +50,17 @@ class BalancedBST {
             return null;
         int mid = (start + end) / 2;
 //        if(level == 0){
-        level++;
         BSTNode node = new BSTNode(src[mid], parent);
-        node.LeftChild = makeBalancedTree(src, start, mid - 1, level, node);
-        node.RightChild = makeBalancedTree(src, mid + 1, end, level, node);
+        node.Level = level;
+        level += 1;
+        final BSTNode leftChild = makeBalancedTree(src, start, mid - 1, level, node);
+        final BSTNode rightChild = makeBalancedTree(src, mid + 1, end, level, node);
+        if (leftChild != null)
+            leftChild.Level = level;
+        if (rightChild != null)
+            rightChild.Level = level;
+        node.LeftChild = leftChild;
+        node.RightChild = rightChild;
 //        } else {
 
         return node;
