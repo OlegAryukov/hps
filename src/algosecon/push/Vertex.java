@@ -9,14 +9,14 @@ class Vertex {
 }
 
 class SimpleGraph {
-    algosecon.graph.Vertex[] vertex;
+    Vertex[] vertex;
     int[][] m_adjacency;
     int max_vertex;
 
     public SimpleGraph(int size) {
         max_vertex = size;
         m_adjacency = new int[size][size];
-        vertex = new algosecon.graph.Vertex[size];
+        vertex = new Vertex[size];
     }
 
     public void AddVertex(int value) {
@@ -29,7 +29,7 @@ class SimpleGraph {
                 index++;
                 continue;
             }
-            vertex[index] = new algosecon.graph.Vertex(value);
+            vertex[index] = new Vertex(value);
         }
     }
 
