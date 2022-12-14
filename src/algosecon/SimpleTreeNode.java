@@ -3,7 +3,7 @@ package algosecon;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleTreeNode<T> {
+class SimpleTreeNode<T> {
     public T NodeValue; // значение в узле
     public SimpleTreeNode<T> Parent; // родитель или null для корня
     public List<SimpleTreeNode<T>> Children; // список дочерних узлов или null
@@ -64,9 +64,8 @@ class SimpleTree<T> {
     public void MoveNode(SimpleTreeNode<T> OriginalNode, SimpleTreeNode<T> NewParent) {
         if (!this.Root.equals(OriginalNode)) {
             OriginalNode.Parent.Children.remove(OriginalNode);
-            if (OriginalNode.Parent.Children.isEmpty())
-                OriginalNode.Parent.Children = null;
-            AddChild(NewParent, OriginalNode);
+            NewParent.Children.add(OriginalNode);
+            OriginalNode.Parent = NewParent;
         }
         // ваш код перемещения узла вместе с его поддеревом --
         // в качестве дочернего для узла NewParent
