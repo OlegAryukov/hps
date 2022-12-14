@@ -1,19 +1,20 @@
 package algosecon;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleTreeNode<T> {
     public T NodeValue; // значение в узле
     public SimpleTreeNode<T> Parent; // родитель или null для корня
     public List<SimpleTreeNode<T>> Children; // список дочерних узлов или null
 
-    public SimpleTreeNode(T val, SimpleTreeNode<T> parent)
-    {
+    public SimpleTreeNode(T val, SimpleTreeNode<T> parent) {
         NodeValue = val;
         Parent = parent;
         Children = null;
     }
 }
+
 class SimpleTree<T> {
     public SimpleTreeNode<T> Root; // корень, может быть null
 
@@ -81,6 +82,19 @@ class SimpleTree<T> {
         if (this.Root.Children == null)
             return 1;
         return getLeafCount(this.Root, 0);
+    }
+
+    public ArrayList<T> EvenTrees() {
+        ArrayList<T> res = new ArrayList<>();
+        if (this.Count() % 2 != 0)
+            return res;
+        for (SimpleTreeNode<T> node : this.Root.Children) {
+            if (this.getLeafCount(node, 0) % 2 == 0) {
+                res.add(Root.NodeValue);
+                res.add(node.NodeValue);
+            }
+        }
+        return res;
     }
 
     private void getNodeByValue(List<SimpleTreeNode<T>> children, T value, List<SimpleTreeNode<T>> result) {
