@@ -88,7 +88,7 @@ class SimpleTree<T> {
         if (this.Count() % 2 != 0)
             return res;
         for (SimpleTreeNode<T> node : this.Root.Children) {
-            if (this.getLeafCount(node, 0) % 2 == 0) {
+            if (this.getNodeCount(node, 0) % 2 == 0) {
                 res.add(Root.NodeValue);
                 res.add(node.NodeValue);
             }
