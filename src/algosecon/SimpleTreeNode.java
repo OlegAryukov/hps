@@ -1,9 +1,11 @@
 package algosecon;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-class SimpleTreeNode<T> {
+public class SimpleTreeNode<T> {
     public T NodeValue; // значение в узле
     public SimpleTreeNode<T> Parent; // родитель или null для корня
     public List<SimpleTreeNode<T>> Children; // список дочерних узлов или null
@@ -17,6 +19,7 @@ class SimpleTreeNode<T> {
 
 class SimpleTree<T> {
     public SimpleTreeNode<T> Root; // корень, может быть null
+    public int count = 0;
 
     public SimpleTree(SimpleTreeNode<T> root) {
         Root = root;
@@ -74,7 +77,7 @@ class SimpleTree<T> {
     public int Count() {
         if (this.Root.Children == null)
             return 1;
-        return getNodeCount(this.Root, 0);
+        return getNodeCount(Root, 1);
     }
 
     public int LeafCount() {
@@ -85,15 +88,29 @@ class SimpleTree<T> {
 
     public ArrayList<T> EvenTrees() {
         ArrayList<T> res = new ArrayList<>();
-        if (this.Count() % 2 != 0)
-            return res;
-        for (SimpleTreeNode<T> node : this.Root.Children) {
-            if (this.getNodeCount(node, 0) % 2 == 0) {
-                res.add(Root.NodeValue);
-                res.add(node.NodeValue);
+        Map<SimpleTreeNode<T>, Boolean> visit = new HashMap<>();
+        int allNodes = this.Count();
+        dfs(visit, Root, res, allNodes);
+
+        return res;
+    }
+
+    private void dfs(Map<SimpleTreeNode<T>, Boolean> visit, SimpleTreeNode<T> node, ArrayList<T> res, int allNodesCount) {
+        visit.put(node, true);
+//        int currComponentNode = 0;
+        // iterate over all neighbor of node u
+        if (node.Children != null && !node.Children.isEmpty()) {
+            for (SimpleTreeNode<T> child : node.Children) {
+                if (!visit.containsKey(child)) {
+                    int nodesCountFromCurrNode = getNodeCount(child, 1);
+                    if ((allNodesCount - nodesCountFromCurrNode) % 2 == 0 && nodesCountFromCurrNode % 2 == 0) {
+                        res.add(node.NodeValue);
+                        res.add(child.NodeValue);
+                    }
+                    dfs(visit, child, res, allNodesCount);
+                }
             }
         }
-        return res;
     }
 
     private void getNodeByValue(List<SimpleTreeNode<T>> children, T value, List<SimpleTreeNode<T>> result) {
@@ -126,11 +143,11 @@ class SimpleTree<T> {
         return count;
     }
 
-    private int getNodeCount(SimpleTreeNode<T> root, Integer count) {
+    private int getNodeCount(SimpleTreeNode<T> root, int count) {
         if (root.Children != null) {
-            count += 1;
+            count += root.Children.size();
             for (SimpleTreeNode<T> node : root.Children) {
-                count = getNodeCount(node, count);
+                count += getNodeCount(node, 0);
             }
         }
         return count;

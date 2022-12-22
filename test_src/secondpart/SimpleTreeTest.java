@@ -168,7 +168,7 @@ public class SimpleTreeTest {
         SimpleTreeNode<Integer> sevenTeen = new SimpleTreeNode<>(17, null);
         SimpleTreeNode<Integer> twentyTwo = new SimpleTreeNode<>(22, null);
         SimpleTreeNode<Integer> twenty = new SimpleTreeNode<>(20, null);
-        SimpleTreeNode<Integer> fourSecond = new SimpleTreeNode<>(4, null);
+
 
         testTree.AddChild(testTree.Root, four);
         testTree.AddChild(four, three);
@@ -178,12 +178,38 @@ public class SimpleTreeTest {
         testTree.AddChild(testTree.Root, sevenTeen);
         testTree.AddChild(sevenTeen, twentyTwo);
         testTree.AddChild(twentyTwo, twenty);
-        testTree.AddChild(sevenTeen, fourSecond);
 
-        Assert.assertEquals(5, testTree.Count());
+
+        Assert.assertEquals(9, testTree.Count());
         testTree.DeleteNode(twenty);
-        Assert.assertEquals(4, testTree.Count());
+        Assert.assertEquals(8, testTree.Count());
         testTree.MoveNode(six, sevenTeen);
-        Assert.assertEquals(4, testTree.Count());
+        Assert.assertEquals(8, testTree.Count());
+    }
+
+    @Test
+    public void findAllPairForForest(){
+        SimpleTree<Integer> testTree = new SimpleTree<>(new SimpleTreeNode<>(1, null));
+        SimpleTreeNode<Integer> four = new SimpleTreeNode<>(4, null);
+        SimpleTreeNode<Integer> three = new SimpleTreeNode<>(3, null);
+        SimpleTreeNode<Integer> five = new SimpleTreeNode<>(5, null);
+        SimpleTreeNode<Integer> six = new SimpleTreeNode<>(6, null);
+        SimpleTreeNode<Integer> seven = new SimpleTreeNode<>(7, null);
+        SimpleTreeNode<Integer> eight = new SimpleTreeNode<>(8, null);
+        SimpleTreeNode<Integer> nine = new SimpleTreeNode<>(9, null);
+        SimpleTreeNode<Integer> ten = new SimpleTreeNode<>(10, null);
+        SimpleTreeNode<Integer> two = new SimpleTreeNode<>(2, null);
+
+        testTree.AddChild(testTree.Root, two);
+        testTree.AddChild(testTree.Root, three);
+        testTree.AddChild(testTree.Root, six);
+        testTree.AddChild(two, seven);
+        testTree.AddChild(two, five);
+        testTree.AddChild(three, four);
+        testTree.AddChild(six, eight);
+        testTree.AddChild(eight, nine);
+        testTree.AddChild(eight, ten);
+
+        Assert.assertEquals(4, testTree.EvenTrees().size());
     }
 }
