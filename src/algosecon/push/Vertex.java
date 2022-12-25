@@ -1,12 +1,16 @@
 package algosecon.push;
 
+import java.util.ArrayList;
+import java.util.Stack;
+
 class Vertex {
     public int Value;
+    public boolean Hit;
 
     public Vertex(int val) {
         Value = val;
-    }
-}
+        Hit = false;
+    }}
 
 class SimpleGraph {
     Vertex[] vertex;
@@ -30,6 +34,7 @@ class SimpleGraph {
                 continue;
             }
             vertex[index] = new Vertex(value);
+            break;
         }
     }
 
@@ -59,4 +64,36 @@ class SimpleGraph {
         m_adjacency[v2][v1] = 0;
         // удаление ребра между вершинами v1 и v2
     }
+
+    public ArrayList<Vertex> DepthFirstSearch(int VFrom, int VTo) {
+        for (int i = 0; i < vertex.length; i++) {
+            vertex[i].Hit = false;
+        }
+        Stack<Vertex> stack = new Stack<>();
+        return new ArrayList<>(getVertices(VFrom, VTo, stack));
+    }
+
+    private Stack<Vertex> getVertices(int VFrom, int VTo, Stack<Vertex> stack) {
+        this.vertex[VFrom].Hit = true;
+        stack.push(vertex[VFrom]);
+        for (int j = 0; j < m_adjacency[VFrom].length; j++) {
+            if (m_adjacency[VFrom][j] == 1 && j == VTo) {
+                stack.push(vertex[VTo]);
+                return stack;
+            }
+        }
+        int stackSize = stack.size();
+        for (int j = 0; j < m_adjacency[VFrom].length; j++) {
+            if (m_adjacency[VFrom][j] == 1 && !vertex[j].Hit) {
+                stack = getVertices(j, VTo, stack);
+            }
+        }
+        if (stackSize == stack.size())
+            stack.pop();
+        return stack;
+
+    }
+    // Узлы задаются позициями в списке vertex.
+    // Возвращается список узлов -- путь из VFrom в VTo.
+    // Список пустой, если пути нету.
 }
