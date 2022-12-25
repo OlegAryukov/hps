@@ -86,6 +86,8 @@ class SimpleGraph {
         for (int j = 0; j < m_adjacency[VFrom].length; j++) {
             if (m_adjacency[VFrom][j] == 1 && !vertex[j].Hit) {
                 stack = getVertices(j, VTo, stack);
+                if(stack.peek().equals(vertex[VTo]))
+                    break;
             }
         }
         if (stackSize == stack.size())
