@@ -1,7 +1,6 @@
 package algosecon.push;
 
-import java.util.ArrayList;
-import java.util.Stack;
+import java.util.*;
 
 class Vertex {
     public int Value;
@@ -71,6 +70,61 @@ class SimpleGraph {
         }
         Stack<Vertex> stack = new Stack<>();
         return new ArrayList<>(getVertices(VFrom, VTo, stack));
+    }
+
+    public ArrayList<Vertex> BreadthFirstSearch(int VFrom, int VTo)
+    {
+        // Узлы задаются позициями в списке vertex.
+        // Возвращается список узлов -- путь из VFrom в VTo.
+        // Список пустой, если пути нету.
+
+        // Create a queue which stores
+        // the paths
+        Queue<List<Integer>> queue = new LinkedList<>();
+        ArrayList<Vertex> vertices = new ArrayList<>();
+        findpaths(vertices, VFrom, VTo);
+        return vertices;
+    }
+
+    private void findpaths(List<Vertex> res, int src, int dst) {
+
+        // Create a queue which stores
+        // the paths
+        Queue<List<Integer> > queue = new LinkedList<>();
+
+        // Path vector to store the current path
+        List<Integer> path = new ArrayList<>();
+        path.add(src);
+        queue.offer(path);
+
+        while (!queue.isEmpty())
+        {
+            path = queue.poll();
+            int last = path.get(path.size() - 1);
+
+            // If last vertex is the desired destination
+            // then print the path
+            if (last == dst)
+            {
+                for (Integer index : path) {
+                    res.add(this.vertex[index]);
+                }
+            }
+
+            // Traverse to all the nodes connected to
+            // current vertex and push new path to queue
+            int[] verticesFromMatrix = m_adjacency[last];
+            //List<Integer> lastNode = g.get(last);
+            for(int i = 0; i < verticesFromMatrix.length; i++)
+            {
+                if (verticesFromMatrix[i] == 1 && !vertex[i].Hit)
+                {
+                    List<Integer> newpath = new ArrayList<>(path);
+                    newpath.add(i);
+                    queue.offer(newpath);
+                }
+            }
+        }
     }
 
     private Stack<Vertex> getVertices(int VFrom, int VTo, Stack<Vertex> stack) {
