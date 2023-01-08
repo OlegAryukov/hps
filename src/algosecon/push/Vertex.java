@@ -109,6 +109,7 @@ class SimpleGraph {
                 for (Integer index : path) {
                     res.add(this.vertex[index]);
                 }
+                break;
             }
 
             // Traverse to all the nodes connected to
@@ -117,7 +118,7 @@ class SimpleGraph {
             //List<Integer> lastNode = g.get(last);
             for(int i = 0; i < verticesFromMatrix.length; i++)
             {
-                if (verticesFromMatrix[i] == 1 && !vertex[i].Hit)
+                if (verticesFromMatrix[i] == 1 && isNotVisited(i, path))
                 {
                     List<Integer> newpath = new ArrayList<>(path);
                     newpath.add(i);
@@ -125,6 +126,17 @@ class SimpleGraph {
                 }
             }
         }
+    }
+
+    private static boolean isNotVisited(int x,
+                                        List<Integer> path)
+    {
+        int size = path.size();
+        for(int i = 0; i < size; i++)
+            if (path.get(i) == x)
+                return false;
+
+        return true;
     }
 
     private Stack<Vertex> getVertices(int VFrom, int VTo, Stack<Vertex> stack) {
