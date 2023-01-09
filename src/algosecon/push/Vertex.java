@@ -26,13 +26,11 @@ class SimpleGraph {
         // ваш код добавления новой вершины
         // с значением value
         // в незанятую позицию vertex
-        int index = 0;
-        while (index < vertex.length) {
-            if (vertex[index] != null) {
-                index++;
+        for (int i = 0; i < vertex.length; i++) {
+            if (vertex[i] != null) {
                 continue;
             }
-            vertex[index] = new Vertex(value);
+            vertex[i] = new Vertex(value);
             break;
         }
     }
@@ -84,6 +82,33 @@ class SimpleGraph {
         ArrayList<Vertex> vertices = new ArrayList<>();
         findpaths(vertices, VFrom, VTo);
         return vertices;
+    }
+
+    public ArrayList<Vertex> WeakVertices()
+    {
+        // возвращает список узлов вне треугольников
+        ArrayList<Vertex> res = new ArrayList<>();
+        for (int i = 0; i < vertex.length; i++) {
+            res.add(vertex[i]);
+        }
+
+        for (int i = 0; i < vertex.length; i++) {
+            ArrayList<Integer> connectedVertices = new ArrayList<>();
+            for (int j = 0; j < vertex.length; j++) {
+                if(m_adjacency[i][j]==1){
+                    connectedVertices.add(j);
+                }
+            }
+            if (connectedVertices.size()<2)
+                continue;
+            for (int j = 0; j < connectedVertices.size(); j++) {
+                for (int k = 1; k < connectedVertices.size(); k++) {
+                    if(m_adjacency[connectedVertices.get(j)][connectedVertices.get(k)]==1)
+                        res.remove(vertex[i]);
+                }
+            }
+        }
+        return res;
     }
 
     private void findpaths(List<Vertex> res, int src, int dst) {
