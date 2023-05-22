@@ -2,7 +2,7 @@ package algosecon;
 
 import java.util.ArrayList;
 
-class BSTNode<T> {
+public class BSTNode<T> {
     public int NodeKey; // ключ узла
     public T NodeValue; // значение в узле
     public BSTNode<T> Parent; // родитель или null для корня
